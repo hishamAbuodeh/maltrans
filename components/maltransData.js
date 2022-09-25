@@ -1,17 +1,18 @@
 import {useState, useRef} from 'react';
 import styles from '../styles/Maltrans.module.scss'
+import axios from 'axios';
 
 export default function MaltransData({data}){
 
-    const [customCenter, setCustomCenter] = useState();
+    const [customCenter, setCustomCenter] = useState("جمرك عمان");
     const [clearanceNo, setClearanceNo] = useState();
     const [clearanceDate, setClearanceDate] = useState();
-    const [healthPath, setHealthPath] = useState();
-    const [customPath, setCustomPath] = useState();
-    const [agriPath, setAgriPath] = useState();
+    const [healthPath, setHealthPath] = useState("Red");
+    const [customPath, setCustomPath] = useState("Red");
+    const [agriPath, setAgriPath] = useState("Red");
     const [customeInsurance, setCustomeInsurance] = useState();
     const [clearanceFinish, setClearanceFinish] = useState();
-    const [requiredAction, setRequiredAction] = useState();
+    const [requiredAction, setRequiredAction] = useState("تسليم المستندات");
 
     function FileUpload(){
         const [selectedFileOne, setSelectedFileOne] = useState();
@@ -96,55 +97,55 @@ export default function MaltransData({data}){
         }
     
         const handleSubmission = () => {
-            console.log('clicked')
-            // const formData = new FormData();
-            // formData.append('customCenter', customCenter);
-            // formData.append('clearanceNo', clearanceNo);
-            // formData.append('clearanceDate', clearanceDate);
-            // formData.append('healthPath', healthPath);
-            // formData.append('customPath', customPath);
-            // formData.append('agriPath', agriPath);
-            // formData.append('customeInsurance', customeInsurance);
-            // formData.append('clearanceFinish', clearanceFinish);
-            // formData.append('requiredAction', requiredAction);
-            // if(isSelectedOne){
-            //     formData.append('FileOne', selectedFileOne);
-            // }else{
-            //     formData.append('FileOne', 'empty');
-            // }
-            // if(isSelectedTwo){
-            //     formData.append('FileTwo', selectedFileTwo);
-            // }
-            // else{
-            //     formData.append('FileTwo', 'empty');
-            // }
-            // if(isSelectedThree){
-            //     formData.append('FileThree', selectedFileThree);
-            // }
-            // else{
-            //     formData.append('FileThree', 'empty');
-            // }
-            // if(isSelectedFour){
-            //     formData.append('FileFour', selectedFileFour);
-            // }
-            // else{
-            //     formData.append('FileFour', 'empty');
-            // }
-            // // console.log(selectedFileOne)
-            // fetch(
-            //     '/api',
-            //     {
-            //         method: 'POST',
-            //         body: formData,
-            //     }
-            // )
-            // .then((response) => response.json())
-            // .then((result) => {
-            //     console.log('Success:', result);
-            // })
-            // .catch((error) => {
-            //     console.error('Error:', error);
-            // });
+            if( customCenter &&  clearanceNo && clearanceDate && healthPath && customPath && agriPath && customeInsurance && clearanceFinish && requiredAction){
+                const formData = new FormData();
+                formData.append('customCenter', customCenter);
+                formData.append('clearanceNo', clearanceNo);
+                formData.append('clearanceDate', clearanceDate);
+                formData.append('healthPath', healthPath);
+                formData.append('customPath', customPath);
+                formData.append('agriPath', agriPath);
+                formData.append('customeInsurance', customeInsurance);
+                formData.append('clearanceFinish', clearanceFinish);
+                formData.append('requiredAction', requiredAction);
+                if(isSelectedOne){
+                    formData.append('FileOne', selectedFileOne);
+                }else{
+                    formData.append('FileOne', 'empty');
+                }
+                if(isSelectedTwo){
+                    formData.append('FileTwo', selectedFileTwo);
+                }
+                else{
+                    formData.append('FileTwo', 'empty');
+                }
+                if(isSelectedThree){
+                    formData.append('FileThree', selectedFileThree);
+                }
+                else{
+                    formData.append('FileThree', 'empty');
+                }
+                if(isSelectedFour){
+                    formData.append('FileFour', selectedFileFour);
+                }
+                else{
+                    formData.append('FileFour', 'empty');
+                }
+                fetch(
+                    '/api',
+                    {
+                        method: 'POST',
+                        body: formData,
+                    }
+                )
+                .then((response) => response.json())
+                .then((result) => {
+                    console.log('Success:', result);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            }
         };
     
         return(
