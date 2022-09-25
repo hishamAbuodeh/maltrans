@@ -73,6 +73,7 @@
 }
 
 .input[type="file"]{
+    width: 190px;
     -webkit-appearance: none;
     text-align: left;
     -webkit-rtl-ordering:  left;
@@ -92,3 +93,36 @@
     display: flex;
     justify-content: flex-end;
  }
+
+ .userActions {
+    margin-right: -10px;
+    button {
+        border: 0;
+        background: none;
+        width: 32px;
+        height: 32px;
+        margin: 0;
+        padding: 0;
+        margin-left: 0.5em;
+        
+        svg {
+            position: relative;
+            top: 2px;
+            
+            path,
+            circle {
+                fill: lighten(#99a0b0, 10%);
+                transition: fill .15s ease;
+            }
+        }
+        
+        &:hover {
+            svg {
+                path,
+                circle {
+                    fill: lighten(#1b253d, 10%);
+                }
+            }
+        }
+    }
+}

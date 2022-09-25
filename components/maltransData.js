@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import styles from '../styles/Maltrans.module.css'
+import {useState, useRef} from 'react';
+import styles from '../styles/Maltrans.module.scss'
 
 export default function MaltransData({data}){
 
@@ -22,29 +22,78 @@ export default function MaltransData({data}){
         const [isSelectedTwo, setIsSelectedTwo] = useState(false);
         const [isSelectedThree, setIsSelectedThree] = useState(false);
         const [isSelectedFour, setIsSelectedFour] = useState(false);
+
+        const ref1 = useRef()
+        const ref2 = useRef()
+        const ref3 = useRef()
+        const ref4 = useRef()
     
         const changeHandler = (event,fileNo) => {
+            const fileData = event.target.files[0]
             switch(fileNo){
                 case 1:
-                    setSelectedFileOne(event.target.files[0]);
-                    setIsSelectedOne(true);
+                    setSelectedFileOne(fileData);
+                    if(fileData){
+                        setIsSelectedOne(true);
+                    }else{
+                        setIsSelectedOne(false);
+                    }
                     break;
                 case 2:
-                    setSelectedFileTwo(event.target.files[0]);
-                    setIsSelectedTwo(true);
+                    setSelectedFileTwo(fileData);
+                    if(fileData){
+                        setIsSelectedTwo(true);
+                    }else{
+                        setIsSelectedTwo(false);
+                    }
                     break;
                 case 3:
-                    setSelectedFileThree(event.target.files[0]);
-                    setIsSelectedThree(true);
+                    setSelectedFileThree(fileData);
+                    if(fileData){
+                        setIsSelectedThree(true);
+                    }else{
+                        setIsSelectedThree(false);
+                    }
                     break;
                 case 4:
-                    setSelectedFileFour(event.target.files[0]);
-                    setIsSelectedFour(true);
+                    setSelectedFileFour(fileData);
+                    if(fileData){
+                        setIsSelectedFour(true);
+                    }else{
+                        setIsSelectedFour(false);
+                    }
                     break;
                 default:
                     break;
             }
         };
+
+        const removeFile = (fileNo) => {
+            switch(fileNo){
+                case 1:
+                    setSelectedFileOne();
+                    setIsSelectedOne(false);
+                    ref1.current.value = ""
+                    break;
+                case 2:
+                    setSelectedFileTwo();
+                    setIsSelectedTwo(false);
+                    ref2.current.value = ""
+                    break;
+                case 3:
+                    setSelectedFileThree();
+                    setIsSelectedThree(false);
+                    ref3.current.value = ""
+                    break;
+                case 4:
+                    setSelectedFileFour();
+                    setIsSelectedFour(false);
+                    ref4.current.value = ""
+                    break;
+                default:
+                    break;
+            }
+        }
     
         const handleSubmission = () => {
             console.log('clicked')
@@ -103,33 +152,69 @@ export default function MaltransData({data}){
                 <div className={styles.fileUpload}>
                     {/* {selectedFileFour.name + selectedFileFour.type} */}
                     <div className={styles.inputContainer}>
+                        {isSelectedOne?
+                            <div className={styles.userActions}>
+                                <button onClick={() => removeFile(1)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                                </button>
+                            </div>
+                        :
+                            <></>
+                        }
                         <fieldset className={styles.fieldset}>
-                                <input className={styles.input} type="file" name="file1" accept=".pdf" onChange={e => changeHandler(e,1)} />
-                                <label className={styles.fileLabel}  htmlFor='clearanceNo'>
+                                <input className={styles.input} type="file" ref={ref1}  name="file1" accept=".pdf" onChange={e => changeHandler(e,1)} />
+                                <label className={styles.fileLabel}  htmlFor='file1'>
                                     البيان الجمركي
                                 </label>
                         </fieldset>
                     </div>
                     <div className={styles.inputContainer}>
+                        {isSelectedTwo?
+                            <div className={styles.userActions}>
+                                <button onClick={() => removeFile(2)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                                </button>
+                            </div>
+                        :
+                            <></>
+                        }
                         <fieldset className={styles.fieldset}>
-                                <input className={styles.input} type="file" name="file2" accept=".pdf" onChange={e => changeHandler(e,2)} />
-                                <label className={styles.fileLabel}  htmlFor='clearanceNo'>
+                                <input className={styles.input} type="file" ref={ref2} name="file2" accept=".pdf" onChange={e => changeHandler(e,2)} />
+                                <label className={styles.fileLabel}  htmlFor='file2'>
                                     فواتير التخليص
                                 </label>
                         </fieldset>  
                     </div>
                     <div className={styles.inputContainer}>
+                        {isSelectedThree?
+                            <div className={styles.userActions}>
+                                <button onClick={() => removeFile(3)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                                </button>
+                            </div>
+                        :
+                            <></>
+                        }
                         <fieldset className={styles.fieldset}>
-                                <input className={styles.input} type="file" name="file3" accept=".pdf" onChange={e => changeHandler(e,3)} />
-                                <label className={styles.fileLabel}  htmlFor='clearanceNo'>
+                                <input className={styles.input} type="file" ref={ref3} name="file3" accept=".pdf" onChange={e => changeHandler(e,3)} />
+                                <label className={styles.fileLabel}  htmlFor='file3'>
                                     نموذج سحب العينات
                                 </label>
                         </fieldset>  
                     </div>
                     <div className={styles.inputContainer}>
+                        {isSelectedFour?
+                            <div className={styles.userActions}>
+                                <button onClick={() => removeFile(4)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                                </button>
+                            </div>
+                        :
+                            <></>
+                        }
                         <fieldset className={styles.fieldset}>
-                                <input className={styles.input} type="file" name="file4" accept=".pdf" onChange={e => changeHandler(e,4)} />
-                                <label className={styles.fileLabel}  htmlFor='clearanceNo'>
+                                <input className={styles.input} type="file" ref={ref4} name="file4" accept=".pdf" onChange={e => changeHandler(e,4)} />
+                                <label className={styles.fileLabel}  htmlFor='file4'>
                                     نتائج البيانات والانجازات
                                 </label>
                         </fieldset>  
