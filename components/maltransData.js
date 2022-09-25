@@ -255,19 +255,19 @@ export default function MaltransData({data}){
                                         جمرك العقبة
                                     </option>
                                 </select>
-                                <label className={styles.label} htmlFor='customCenter'>
+                                <label className={styles.label2} htmlFor='customCenter'>
                                     المركز الجمركي
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
                                 <input name='clearanceNo' onChange={e => setClearanceNo(e.target.value)} required/>
-                                <label className={styles.label}  htmlFor='clearanceNo'>
+                                <label className={styles.label2}  htmlFor='clearanceNo'>
                                     رقم البيان الجمركي
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
                                 <input name='clearanceDate' type="date" className={styles.opt} onChange={e => setClearanceDate(e.target.value)} required/>
-                                <label className={styles.label} htmlFor='clearanceDate'>
+                                <label className={styles.label2} htmlFor='clearanceDate'>
                                     تاريخ البيان الجمركي
                                 </label>
                             </fieldset>
@@ -283,7 +283,7 @@ export default function MaltransData({data}){
                                         Green 
                                     </option>
                                 </select>
-                                <label className={styles.label} htmlFor='healthPath'>
+                                <label className={styles.label2} htmlFor='healthPath'>
                                     المسرب الصحي
                                 </label>
                             </fieldset>
@@ -299,7 +299,7 @@ export default function MaltransData({data}){
                                         Green 
                                     </option>
                                 </select>
-                                <label className={styles.label} htmlFor='customPath'>
+                                <label className={styles.label2} htmlFor='customPath'>
                                     المسرب الجمركي
                                 </label>
                             </fieldset>
@@ -315,19 +315,19 @@ export default function MaltransData({data}){
                                         Green 
                                     </option>
                                 </select>
-                                <label className={styles.label} htmlFor='agriPath'>
+                                <label className={styles.label2} htmlFor='agriPath'>
                                     المسرب الزراعي
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
                                 <input name='customeInsurance' onChange={e => setCustomeInsurance(e.target.value)} required/>
-                                <label className={styles.label} htmlFor='customeInsurance'>
+                                <label className={styles.label2} htmlFor='customeInsurance'>
                                     التأمينات الجمركية
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
                                 <input name='clearanceFinish' type="date" className={styles.opt} onChange={e => setClearanceFinish(e.target.value)} required/>
-                                <label className={styles.label} htmlFor='clearanceFinish'>
+                                <label className={styles.label2} htmlFor='clearanceFinish'>
                                     إنجاز البيان
                                 </label>
                             </fieldset>
@@ -373,7 +373,7 @@ export default function MaltransData({data}){
                                         إنجاز
                                     </option>
                                 </select>
-                                <label className={styles.label} htmlFor='requiredAction'>
+                                <label className={styles.label2} htmlFor='requiredAction'>
                                     الإجراء المطلوب
                                 </label>
                             </fieldset>
