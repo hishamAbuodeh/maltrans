@@ -76,7 +76,7 @@ export default function Home(props){
                 prevBillNo = billNo
                 setInnerLoading(true)
                 axios({
-                    baseURL:'http://192.168.90.15:3030',
+                    baseURL:'http://localhost:3030',
                     url: '/bill-of-lading',
                     method: 'post',
                     headers: {
