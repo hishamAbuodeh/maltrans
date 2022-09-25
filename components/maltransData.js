@@ -102,10 +102,38 @@ export default function MaltransData({data}){
             <div>
                 <div className={styles.fileUpload}>
                     {/* {selectedFileFour.name + selectedFileFour.type} */}
-                    <input style={{marginRight:'-30px'}} type="file" name="file1" onChange={e => changeHandler(e,1)} />
-                    <input style={{marginRight:'-30px'}} type="file" name="file2" onChange={e => changeHandler(e,2)} />
-                    <input style={{marginRight:'-30px'}} type="file" name="file3" onChange={e => changeHandler(e,3)} />
-                    <input style={{marginRight:'-30px'}} type="file" name="file4" onChange={e => changeHandler(e,4)} />
+                    <div className={styles.inputContainer}>
+                        <fieldset className={styles.fieldset}>
+                                <input className={styles.input} type="file" name="file1" accept=".pdf" onChange={e => changeHandler(e,1)} />
+                                <label className={styles.fileLabel}  htmlFor='clearanceNo'>
+                                    البيان الجمركي
+                                </label>
+                        </fieldset>
+                    </div>
+                    <div className={styles.inputContainer}>
+                        <fieldset className={styles.fieldset}>
+                                <input className={styles.input} type="file" name="file2" accept=".pdf" onChange={e => changeHandler(e,2)} />
+                                <label className={styles.fileLabel}  htmlFor='clearanceNo'>
+                                    فواتير التخليص
+                                </label>
+                        </fieldset>  
+                    </div>
+                    <div className={styles.inputContainer}>
+                        <fieldset className={styles.fieldset}>
+                                <input className={styles.input} type="file" name="file3" accept=".pdf" onChange={e => changeHandler(e,3)} />
+                                <label className={styles.fileLabel}  htmlFor='clearanceNo'>
+                                    نموذج سحب العينات
+                                </label>
+                        </fieldset>  
+                    </div>
+                    <div className={styles.inputContainer}>
+                        <fieldset className={styles.fieldset}>
+                                <input className={styles.input} type="file" name="file4" accept=".pdf" onChange={e => changeHandler(e,4)} />
+                                <label className={styles.fileLabel}  htmlFor='clearanceNo'>
+                                    نتائج البيانات والانجازات
+                                </label>
+                        </fieldset>  
+                    </div>
                 </div>
                 <div className={styles.btuContainer}>
                     <div>
