@@ -180,7 +180,6 @@ export default function MaltransData({data}){
         return(
             <div>
                 <div className={styles.fileUpload}>
-                    {/* {selectedFileFour.name + selectedFileFour.type} */}
                     <div className={styles.inputContainer}>
                         {isSelectedOne?
                             <div className={styles.userActions}>
