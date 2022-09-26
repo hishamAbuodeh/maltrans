@@ -109,31 +109,35 @@ export default function MaltransData({data}){
         const convertFiles = async (formData) => {
             if(isSelectedOne){
                 await toBase64(selectedFileOne).then((result) => {
+                    formData.append('FileOneName',selectedFileOne.name)
                     formData.append('FileOne',result)
                 });
             }else{
-                formData.append('FileOne','empty')
+                formData.append('FileOneName',"")
             }
             if(isSelectedTwo){
                 await toBase64(selectedFileTwo).then((result) => {
+                    formData.append('FileTwoName',selectedFileTwo.name)
                     formData.append('FileTwo',result)
                 });
             }else{
-                formData.append('FileTwo','empty')
+                formData.append('FileTwoName',"")
             }
             if(isSelectedThree){
                 await toBase64(selectedFileThree).then((result) => {
+                    formData.append('FileThreeName',selectedFileThree.name)
                     formData.append('FileThree',result)
                 });
             }else{
-                formData.append('FileThree','empty')
+                formData.append('FileThreeName',"")
             }
             if(isSelectedFour){
                 await toBase64(selectedFileFour).then((result) => {
+                    formData.append('FileFourName',selectedFileFour.name)
                     formData.append('FileFour',result)
                 });
             }else{
-                formData.append('FileFour','empty')
+                formData.append('FileFourName',"")
             }
             return 'done'
         }
