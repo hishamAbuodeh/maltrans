@@ -152,20 +152,24 @@ export default function MaltransData({data}){
                 formData.append('requiredAction', requiredAction);
                 const dataToBase64 = await convertFiles(formData)
                 console.log(dataToBase64)
-                fetch(
-                    'http://localhost:3030/save-maltrans-data',
-                    {
-                        method: 'POST',
-                        body: formData,
-                    }
-                )
-                .then((response) => response.json())
-                .then((result) => {
-                    console.log('Success:', result);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+                try{
+                    fetch(
+                        'http://localhost:3030/save-maltrans-data',
+                        {
+                            method: 'POST',
+                            body: formData,
+                        }
+                    )
+                    .then((response) => response.json())
+                    .then((result) => {
+                        console.log('Success:', result);
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+                }catch(err){
+                    console.error('Error:', err);
+                }
             }
         };
     
