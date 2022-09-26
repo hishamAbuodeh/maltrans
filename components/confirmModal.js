@@ -22,13 +22,13 @@ export default function ConfirmModal({handleSubmission}){
                 </div>
                 <div className={styles.actions}>
                 <button 
-                    className={styles.btu}
+                    className={styles.btuConfirm}
                     onClick={handleSubmission}
                 > 
                     Confirm 
                 </button>
                 <button
-                    className={styles.btu}
+                    className={styles.btuClose}
                     onClick={() => {
                     console.log('modal closed ');
                     close();
