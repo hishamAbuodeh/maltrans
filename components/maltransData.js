@@ -1,5 +1,6 @@
 import {useState, useRef} from 'react';
 import styles from '../styles/Maltrans.module.scss'
+import ConfirmModal from './confirmModal';
 
 export default function MaltransData({data}){
 
@@ -251,7 +252,8 @@ export default function MaltransData({data}){
                 </div>
                 <div className={styles.btuContainer}>
                     <div>
-                        <button className={styles.btu} type='submit' onClick={handleSubmission}>Submit</button>
+                        {/* <button className={styles.btu} type='submit' onClick={handleSubmission}>Submit</button> */}
+                        <ConfirmModal handleSubmission={handleSubmission}/>
                     </div>
                 </div>
             </div>

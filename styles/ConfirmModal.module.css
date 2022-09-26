@@ -1,0 +1,69 @@
+.btu{
+    height: 35px;
+    border-radius: 4px;
+    width: 100px;
+    background-color: black;
+    color:#fff;
+    margin-left: 2.5px;
+    margin-right: 2.5px;
+}
+
+.btu:hover{
+    border:solid black;
+    background-color: #fff;
+    color:black
+}
+
+
+.modal {
+    font-size: 12px;
+    background-color: aqua;
+    width:500px
+  }
+  .modal > .header {
+    width: 100%;
+    border-bottom: 1px solid gray;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+  }
+  .modal > .content {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    min-height: 150px;
+    /* text-align: right; */
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 25px;
+  }
+  .content > .contentMsg {
+    height: 100%;
+    width:100%;
+    text-align: right;
+  }
+  .modal > .actions {
+    width: 100%;
+    padding: 10px 5px;
+    margin: auto;
+    text-align: center;
+  }
+  .modal > .close {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 2px 5px;
+    line-height: 20px;
+    right: -10px;
+    top: -10px;
+    font-size: 24px;
+    background-color: black;
+    color:#fff;
+    border-radius: 18px;
+    border: 1px solid #cfcece;
+  }
+  .modal > .close:hover {
+    border:1px solid black;
+    background-color: #fff;
+    color:black
+  }
