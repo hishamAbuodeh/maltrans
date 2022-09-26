@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default function handler(req, res) {
-    const data = req.body
+    let data = req.body
     const baseURL = 'http://localhost:3030'
     console.log(data)
     try{
@@ -10,8 +10,8 @@ export default function handler(req, res) {
             url:'/save-maltrans-data',
             method:"post",
             timeout:30000,
-            headers:{'Content-Type': 'application/json'},
-            data:JSON.stringify({data})
+            headers:{'Content-Type': `multipart/form-data, boundary=${formData.getBoundary()}`},
+            data
         }).then(result => {
             res.send({data:result.data})
         }).catch(err => {
@@ -20,4 +20,5 @@ export default function handler(req, res) {
     }catch(err){
         res.send({msg:"connection error"})
     }
+    res.send({msg:'done'})
 }

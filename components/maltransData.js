@@ -1,6 +1,5 @@
 import {useState, useRef} from 'react';
 import styles from '../styles/Maltrans.module.scss'
-import axios from 'axios';
 
 export default function MaltransData({data}){
 
@@ -95,8 +94,51 @@ export default function MaltransData({data}){
                     break;
             }
         }
+
+        const toBase64 = async (file) => {
+            return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                resolve(reader.result)
+            };
+            reader.onerror = error => reject(error);
+            })
+        };
+
+        const convertFiles = async (formData) => {
+            if(isSelectedOne){
+                await toBase64(selectedFileOne).then((result) => {
+                    formData.append('FileOne',result)
+                });
+            }else{
+                formData.append('FileOne','empty')
+            }
+            if(isSelectedTwo){
+                await toBase64(selectedFileTwo).then((result) => {
+                    formData.append('FileTwo',result)
+                });
+            }else{
+                formData.append('FileTwo','empty')
+            }
+            if(isSelectedThree){
+                await toBase64(selectedFileThree).then((result) => {
+                    formData.append('FileThree',result)
+                });
+            }else{
+                formData.append('FileThree','empty')
+            }
+            if(isSelectedFour){
+                await toBase64(selectedFileFour).then((result) => {
+                    formData.append('FileFour',result)
+                });
+            }else{
+                formData.append('FileFour','empty')
+            }
+            return 'done'
+        }
     
-        const handleSubmission = () => {
+        const handleSubmission = async () => {
             if( customCenter &&  clearanceNo && clearanceDate && healthPath && customPath && agriPath && customeInsurance && clearanceFinish && requiredAction){
                 const formData = new FormData();
                 formData.append('customCenter', customCenter);
@@ -108,31 +150,10 @@ export default function MaltransData({data}){
                 formData.append('customeInsurance', customeInsurance);
                 formData.append('clearanceFinish', clearanceFinish);
                 formData.append('requiredAction', requiredAction);
-                if(isSelectedOne){
-                    formData.append('FileOne', selectedFileOne);
-                }else{
-                    formData.append('FileOne', 'empty');
-                }
-                if(isSelectedTwo){
-                    formData.append('FileTwo', selectedFileTwo);
-                }
-                else{
-                    formData.append('FileTwo', 'empty');
-                }
-                if(isSelectedThree){
-                    formData.append('FileThree', selectedFileThree);
-                }
-                else{
-                    formData.append('FileThree', 'empty');
-                }
-                if(isSelectedFour){
-                    formData.append('FileFour', selectedFileFour);
-                }
-                else{
-                    formData.append('FileFour', 'empty');
-                }
+                const dataToBase64 = await convertFiles(formData)
+                console.log(dataToBase64)
                 fetch(
-                    '/api',
+                    'http://localhost:3030/save-maltrans-data',
                     {
                         method: 'POST',
                         body: formData,
