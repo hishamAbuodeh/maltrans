@@ -3,7 +3,7 @@ import styles from '../styles/Maltrans.module.scss'
 import ConfirmModal from './confirmModal';
 import SendingLoader from './sendingLoader';
 
-export default function MaltransData({data,tokenKey,logout}){
+export default function MaltransData({data,tokenKey,logout,username}){
 
     const [customCenter, setCustomCenter] = useState("جمرك عمان");
     const [clearanceNo, setClearanceNo] = useState();
@@ -15,6 +15,7 @@ export default function MaltransData({data,tokenKey,logout}){
     const [clearanceFinish, setClearanceFinish] = useState();
     const [requiredAction, setRequiredAction] = useState("تسليم المستندات");
     const [token, setToken] = useState(tokenKey)
+    const [user, setUser] = useState(username)
 
     function FileUpload(){
         const [selectedFileOne, setSelectedFileOne] = useState();
@@ -158,6 +159,7 @@ export default function MaltransData({data,tokenKey,logout}){
             }
             if( customCenter &&  clearanceNo && clearanceDate && healthPath && customPath && agriPath && customeInsurance && clearanceFinish && requiredAction){
                 const formData = new FormData();
+                formData.append('BL', data.BL);
                 formData.append('customCenter', customCenter);
                 formData.append('clearanceNo', clearanceNo);
                 formData.append('clearanceDate', clearanceDate);
@@ -167,6 +169,7 @@ export default function MaltransData({data,tokenKey,logout}){
                 formData.append('customeInsurance', customeInsurance);
                 formData.append('clearanceFinish', clearanceFinish);
                 formData.append('requiredAction', requiredAction);
+                formData.append('UserName', user);
                 const dataToBase64 = await convertFiles(formData)
                 console.log(dataToBase64)
                 setIsSending(true)
