@@ -1,7 +1,9 @@
 import {useState, useRef} from 'react';
 import styles from '../styles/Maltrans.module.scss'
+import ConfirmModal from './confirmModal';
+import SendingLoader from './sendingLoader';
 
-export default function MaltransData({data}){
+export default function MaltransData({data,tokenKey,logout}){
 
     const [customCenter, setCustomCenter] = useState("جمرك عمان");
     const [clearanceNo, setClearanceNo] = useState();
@@ -12,6 +14,7 @@ export default function MaltransData({data}){
     const [customeInsurance, setCustomeInsurance] = useState();
     const [clearanceFinish, setClearanceFinish] = useState();
     const [requiredAction, setRequiredAction] = useState("تسليم المستندات");
+    const [token, setToken] = useState(tokenKey)
 
     function FileUpload(){
         const [selectedFileOne, setSelectedFileOne] = useState();
@@ -22,6 +25,11 @@ export default function MaltransData({data}){
         const [isSelectedTwo, setIsSelectedTwo] = useState(false);
         const [isSelectedThree, setIsSelectedThree] = useState(false);
         const [isSelectedFour, setIsSelectedFour] = useState(false);
+        const [isSending, setIsSending] = useState(false)
+        const [msg, setMsg] = useState("")
+        const [isMsg, setIsMsg] = useState(false)
+        const [success, setSuccess] = useState(true)
+
 
         const ref1 = useRef()
         const ref2 = useRef()
@@ -143,6 +151,11 @@ export default function MaltransData({data}){
         }
     
         const handleSubmission = async () => {
+            if(msg != ""){
+                setMsg("")
+                setSuccess(true)
+                setIsMsg(false)
+            }
             if( customCenter &&  clearanceNo && clearanceDate && healthPath && customPath && agriPath && customeInsurance && clearanceFinish && requiredAction){
                 const formData = new FormData();
                 formData.append('customCenter', customCenter);
@@ -156,23 +169,47 @@ export default function MaltransData({data}){
                 formData.append('requiredAction', requiredAction);
                 const dataToBase64 = await convertFiles(formData)
                 console.log(dataToBase64)
+                setIsSending(true)
                 try{
                     fetch(
                         'http://localhost:3030/save-maltrans-data',
                         {
                             method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            },
                             body: formData,
                         }
                     )
                     .then((response) => response.json())
                     .then((result) => {
-                        console.log('Success:', result);
+                        setTimeout(() => {
+                            setIsSending(false)
+                            if(result.status == "unauthorized"){
+                                setSuccess(false)
+                                setTimeout(() => {
+                                    logout()
+                                },1500)
+                            }
+                            setMsg(result.msg)
+                            setIsMsg(true)
+                        },1500)
                     })
                     .catch((error) => {
-                        console.error('Error:', error);
+                        setTimeout(() => {
+                            setIsSending(false)
+                            setSuccess(false)
+                            setIsMsg(true)
+                            setMsg("server shutdown or connection lost!, please try again")
+                        },1500)
                     });
                 }catch(err){
-                    console.error('Error:', err);
+                    setTimeout(() => {
+                        setIsSending(false)
+                        setSuccess(false)
+                        setIsMsg(true)
+                        setMsg("server shutdown or connection lost!, please try again")
+                    },1500)
                 }
             }
         };
@@ -251,7 +288,27 @@ export default function MaltransData({data}){
                 </div>
                 <div className={styles.btuContainer}>
                     <div>
-                        <button className={styles.btu} type='submit' onClick={handleSubmission}>Submit</button>
+                        {/* <button className={styles.btu} type='submit' onClick={handleSubmission}>Submit</button> */}
+                        {isSending?
+                            <div>
+                                <SendingLoader/>
+                            </div>
+                        :
+                            <div style={{display:'flex',justifyConten:'center',alignItems:'center'}}>
+                                {isMsg?
+                                    <div>
+                                        {success?
+                                            <div style={{color:"green"}}>{msg}</div>
+                                        :
+                                            <div style={{color:"red"}}>{msg}</div>
+                                        }
+                                    </div>
+                                :
+                                    <></>
+                                }
+                                <ConfirmModal handleSubmission={handleSubmission}/>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

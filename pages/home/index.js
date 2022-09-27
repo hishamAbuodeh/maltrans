@@ -184,7 +184,7 @@ export default function Home(props){
                             <>
                                 {Object.keys(billData).length > 0?
                                     <div style={{width:'100%'}}>
-                                        <MaltransData data={billData}/>
+                                        <MaltransData data={billData} tokenKey={token} logout={logout}/>
                                     </div>
                                 :
                                     <></>
