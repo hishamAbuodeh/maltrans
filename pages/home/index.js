@@ -56,6 +56,18 @@ export default function Home(props){
         
         const [billNo, setBillNo] = useState("")
         const [billData, setBillData] = useState({})
+        const [updatedData, setUpdatedData] = useState({
+            customCenter:"جمرك عمان",
+            clearanceNo:"",
+            clearanceDate:"",
+            healthPath:"Red",
+            customPath:"Red",
+            agriPath:"Red",
+            customeInsurance:"",
+            clearanceFinish:"",
+            requiredAction:"تسليم المستندات"
+        })
+        const [histData, setHistData] = useState([])
         const [msg,setMsg] = useState("")
         const [showMsg,setShowMsg] = useState(false)
         const [innerLoading,setInnerLoading] = useState(false)
@@ -76,7 +88,7 @@ export default function Home(props){
                 prevBillNo = billNo
                 setInnerLoading(true)
                 axios({
-                    baseURL:'http://localhost:3030',
+                    baseURL:'http://192.168.90.15:3030',
                     url: '/bill-of-lading',
                     method: 'post',
                     headers: {
@@ -91,7 +103,15 @@ export default function Home(props){
                     setTimeout(() => {
                         setInnerLoading(false)
                         if(res.data.status == "success"){
-                            setBillData(res.data.data)
+                            setBillData(res.data.data.mainData)
+                            if(res.data.data.isUpdated == "1"){
+                                res.data.data.updatedData.clearanceDate = res.data.data.updatedData.clearanceDate.split("T")[0]
+                                res.data.data.updatedData.clearanceFinish = res.data.data.updatedData.clearanceFinish.split("T")[0]
+                                setUpdatedData(res.data.data.updatedData)
+                            }
+                            if(res.data.data.isHistory == "1"){
+                                setHistData(res.data.data.historyData)
+                            }
                         }else{
                             clear()
                             setShowMsg(true)
@@ -184,7 +204,7 @@ export default function Home(props){
                             <>
                                 {Object.keys(billData).length > 0?
                                     <div style={{width:'100%'}}>
-                                        <MaltransData data={billData} tokenKey={token} logout={logout}/>
+                                        <MaltransData data={billData} tokenKey={token} logout={logout} username={username} updatedData={updatedData} setHistData={setHistData}/>
                                     </div>
                                 :
                                     <></>
