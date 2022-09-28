@@ -6,6 +6,16 @@
     padding: 10px;
 }
 
+.logContainer{
+	width:100%;
+	display: flex;
+    flex-direction: column;
+	justify-content: flex-start;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px;
+}
+
 .fieldset{
     border: 0;
     display: flex;
@@ -133,4 +143,38 @@
             }
         }
     }
+}
+
+.table{
+    
+    border-collapse: collapse;
+}
+
+.th{
+    min-width: 150px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.innerTr{
+    border-collapse: collapse;
+    border-bottom: 0.5px solid black;
+}
+
+.innerTr:hover{
+    background-color: #ede8f0;
+}
+
+.headerTr{
+    // border: 1px solid black;
+    border-collapse: collapse;
+    border-bottom: 4px solid black;
+}
+
+.td{
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: center;
 }

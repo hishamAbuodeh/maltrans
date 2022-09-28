@@ -75,6 +75,18 @@ export default function Home(props){
         const clear = () => {
             prevBillNo = ""
             setBillData({})
+            setUpdatedData({
+                customCenter:"جمرك عمان",
+                clearanceNo:"",
+                clearanceDate:"",
+                healthPath:"Red",
+                customPath:"Red",
+                agriPath:"Red",
+                customeInsurance:"",
+                clearanceFinish:"",
+                requiredAction:"تسليم المستندات"
+            })
+            setHistData([])
         }
 
         const getData = async() => {
@@ -204,7 +216,7 @@ export default function Home(props){
                             <>
                                 {Object.keys(billData).length > 0?
                                     <div style={{width:'100%'}}>
-                                        <MaltransData data={billData} tokenKey={token} logout={logout} username={username} updatedData={updatedData} setHistData={setHistData}/>
+                                        <MaltransData data={billData} tokenKey={token} logout={logout} username={username} updatedData={updatedData} histData={histData}/>
                                     </div>
                                 :
                                     <></>

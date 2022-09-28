@@ -1,9 +1,9 @@
-import {useState, useRef} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import styles from '../styles/Maltrans.module.scss'
 import ConfirmModal from './confirmModal';
 import SendingLoader from './sendingLoader';
 
-export default function MaltransData({data,tokenKey,logout,username,updatedData,setHistData}){
+export default function MaltransData({data,tokenKey,logout,username,updatedData,histData}){
 
     const [customCenter, setCustomCenter] = useState(updatedData.customCenter);
     const [clearanceNo, setClearanceNo] = useState(updatedData.clearanceNo);
@@ -16,6 +16,50 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
     const [requiredAction, setRequiredAction] = useState(updatedData.requiredAction);
     const [token, setToken] = useState(tokenKey)
     const [user, setUser] = useState(username)
+    const [msg, setMsg] = useState("")
+    const [isMsg, setIsMsg] = useState(false)
+    const [success, setSuccess] = useState(true)
+    const [history, setHistory] = useState(histData)
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        if(!loading){
+            setLoading(true)
+            setTimeout(() => {
+                setLoading(false)
+            },1500)
+        }
+    },[history])
+
+    const historyLog = () => {
+        return history
+        .sort((a,b) => {
+            return parseInt(b.ID) - parseInt(a.ID)
+        })
+        .map((item,index) => {
+            return(
+                <tr key={`tr-${index}`} className={styles.innerTr}>
+                    <td key={index.toString() + "-" + '0'} className={styles.td}>{index + 1}</td>
+                    <td key={index.toString() + "-" + '1'} className={styles.td}>{item.BL}</td>
+                    <td key={index.toString() + "-" + '2'} className={styles.td}>{item.customCenter}</td>
+                    <td key={index.toString() + "-" + '3'} className={styles.td}>{item.clearanceNo}</td>
+                    <td key={index.toString() + "-" + '4'} className={styles.td}>{item.clearanceDate.split("T")[0]}</td>
+                    <td key={index.toString() + "-" + '5'} className={styles.td}>{item.healthPath}</td>
+                    <td key={index.toString() + "-" + '6'} className={styles.td}>{item.customPath}</td>
+                    <td key={index.toString() + "-" + '7'} className={styles.td}>{item.agriPath}</td>
+                    <td key={index.toString() + "-" + '8'} className={styles.td}>{item.customeInsurance}</td>
+                    <td key={index.toString() + "-" + '9'} className={styles.td}>{item.clearanceFinish}</td>
+                    <td key={index.toString() + "-" + '10'} className={styles.td}>{item.requiredAction}</td>
+                    <td key={index.toString() + "-" + '11'} className={styles.td}>{item.customeDeclaration != "no file"? item.customeDeclaration.split("pdf\\")[1] : "no file"}</td>
+                    <td key={index.toString() + "-" + '12'} className={styles.td}>{item.clearanceBill != "no file"? item.clearanceBill.split("pdf\\")[1] : "no file"}</td>
+                    <td key={index.toString() + "-" + '13'} className={styles.td}>{item.samplingModel != "no file"? item.samplingModel.split("pdf\\")[1] : "no file"}</td>
+                    <td key={index.toString() + "-" + '14'} className={styles.td}>{item.dataResults != "no file"? item.dataResults.split("pdf\\")[1] : "no file"}</td>
+                    <td key={index.toString() + "-" + '15'} className={styles.td}>{item.Sysdate.split("T")[0]}</td>
+                    <td key={index.toString() + "-" + '16'} className={styles.td}>{item.UserName}</td>
+                </tr>
+            )
+        })
+    }
 
     function FileUpload(){
         const [selectedFileOne, setSelectedFileOne] = useState();
@@ -27,16 +71,12 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
         const [isSelectedThree, setIsSelectedThree] = useState(false);
         const [isSelectedFour, setIsSelectedFour] = useState(false);
         const [isSending, setIsSending] = useState(false)
-        const [msg, setMsg] = useState("")
-        const [isMsg, setIsMsg] = useState(false)
-        const [success, setSuccess] = useState(true)
-
 
         const ref1 = useRef()
         const ref2 = useRef()
         const ref3 = useRef()
         const ref4 = useRef()
-    
+
         const changeHandler = (event,fileNo) => {
             const fileData = event.target.files[0]
             switch(fileNo){
@@ -197,8 +237,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                             if(result.msg != "Submit is Done"){
                                 setSuccess(false)
                             }else{
-                                console.log(result.data)
-                                setHistData(result.data)
+                                setHistory(result.data)
                             }
                             setMsg(result.msg)
                             setIsMsg(true)
@@ -325,225 +364,270 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
     }
 
     return(
-        <div className={styles.contentContainer}>
-            <div>
-                <div style={{width:'100%'}}>
-                    <h2 style={{textAlign:"center"}}>
-                        ادخال البيانات
-                    </h2>
+        <div style={{width:'100%'}}>
+            <div className={styles.contentContainer}>
+                <div>
+                    <div style={{width:'100%'}}>
+                        <h2 style={{textAlign:"center"}}>
+                            ادخال البيانات
+                        </h2>
+                    </div>
+                    <div className={styles.info}>
+                        <form onSubmit={(e) => e.preventDefault()}>
+                            <div className={styles.forms}>
+                                <fieldset className={styles.fieldset}>
+                                    <select value={customCenter} name="customCenter" className={styles.opt} onChange={e => setCustomCenter(e.target.value)}>
+                                        <option value="جمرك عمان">
+                                            جمرك عمان
+                                        </option>
+                                        <option value="جمرك جابر">
+                                            جمرك جابر
+                                        </option>
+                                        <option value="جمرك العمري">
+                                            جمرك العمري
+                                        </option>
+                                        <option value="جمرك العقبة">
+                                            جمرك العقبة
+                                        </option>
+                                    </select>
+                                    <label className={styles.label2} htmlFor='customCenter'>
+                                        المركز الجمركي
+                                    </label>
+                                </fieldset>
+                                <fieldset className={styles.fieldset}>
+                                    <input value={clearanceNo} name='clearanceNo' onChange={e => setClearanceNo(e.target.value)} required/>
+                                    <label className={styles.label2}  htmlFor='clearanceNo'>
+                                        رقم البيان الجمركي
+                                    </label>
+                                </fieldset>
+                                <fieldset className={styles.fieldset}>
+                                    <input value={clearanceDate} name='clearanceDate' type="date" className={styles.opt} onChange={e => setClearanceDate(e.target.value)} required/>
+                                    <label className={styles.label2} htmlFor='clearanceDate'>
+                                        تاريخ البيان الجمركي
+                                    </label>
+                                </fieldset>
+                                <fieldset className={styles.fieldset}>
+                                    <select value={healthPath} name="healthPath" className={styles.opt} onChange={e => setHealthPath(e.target.value)}>
+                                        <option value="Red">
+                                            Red
+                                        </option>
+                                        <option value="Yellow">
+                                            Yellow 
+                                        </option>
+                                        <option value="Green">
+                                            Green 
+                                        </option>
+                                    </select>
+                                    <label className={styles.label2} htmlFor='healthPath'>
+                                        المسرب الصحي
+                                    </label>
+                                </fieldset>
+                                <fieldset className={styles.fieldset}>
+                                    <select value={customPath} name="customPath" className={styles.opt} onChange={e => setCustomPath(e.target.value)}>
+                                        <option value="Red">
+                                            Red
+                                        </option>
+                                        <option value="Yellow">
+                                            Yellow 
+                                        </option>
+                                        <option value="Green">
+                                            Green 
+                                        </option>
+                                    </select>
+                                    <label className={styles.label2} htmlFor='customPath'>
+                                        المسرب الجمركي
+                                    </label>
+                                </fieldset>
+                                <fieldset className={styles.fieldset}>
+                                <select value={agriPath} name="agriPath" className={styles.opt} onChange={e => setAgriPath(e.target.value)}>
+                                        <option value="Red">
+                                            Red
+                                        </option>
+                                        <option value="Yellow">
+                                            Yellow 
+                                        </option>
+                                        <option value="Green">
+                                            Green 
+                                        </option>
+                                    </select>
+                                    <label className={styles.label2} htmlFor='agriPath'>
+                                        المسرب الزراعي
+                                    </label>
+                                </fieldset>
+                                <fieldset className={styles.fieldset}>
+                                    <input value={customeInsurance} name='customeInsurance' onChange={e => setCustomeInsurance(e.target.value)} required/>
+                                    <label className={styles.label2} htmlFor='customeInsurance'>
+                                        التأمينات الجمركية
+                                    </label>
+                                </fieldset>
+                                <fieldset className={styles.fieldset}>
+                                    <input value={clearanceFinish} name='clearanceFinish' type="date" className={styles.opt} onChange={e => setClearanceFinish(e.target.value)} required/>
+                                    <label className={styles.label2} htmlFor='clearanceFinish'>
+                                        إنجاز البيان
+                                    </label>
+                                </fieldset>
+                                <fieldset className={styles.fieldset}>
+                                    <select value={requiredAction} name="requiredAction" className={styles.opt} onChange={e => setRequiredAction(e.target.value)}>
+                                        <option value="تسليم المستندات">
+                                            تسليم المستندات
+                                        </option>
+                                        <option value="استلام إذن التسليم">
+                                            استلام إذن التسليم
+                                        </option>
+                                        <option value="تفعيل إذن التسليم">
+                                            تفعيل إذن التسليم
+                                        </option>
+                                        <option value="تنظيم البيان">
+                                            تنظيم البيان
+                                        </option>
+                                        <option value="تخمين البيان">
+                                            تخمين البيان
+                                        </option>
+                                        <option value="دفع البيان">
+                                            دفع البيان
+                                        </option>
+                                        <option value="تحميل من الميناء">
+                                            تحميل من الميناء
+                                        </option>
+                                        <option value="معاينة مع عينة">
+                                            معاينة مع عينة
+                                        </option>
+                                        <option value="معاينة بدون عينة">
+                                            معاينة بدون عينة
+                                        </option>
+                                        <option value="تصريح خروج">
+                                            تصريح خروج
+                                        </option>
+                                        <option value="وصلت">
+                                            وصلت
+                                        </option>
+                                        <option value="نتائج">
+                                            نتائج
+                                        </option>
+                                        <option value="إنجاز">
+                                            إنجاز
+                                        </option>
+                                    </select>
+                                    <label className={styles.label2} htmlFor='requiredAction'>
+                                        الإجراء المطلوب
+                                    </label>
+                                </fieldset>
+                            </div>
+                            <FileUpload/>
+                        </form>
+                    </div>
                 </div>
-                <div className={styles.info}>
-                    <form onSubmit={(e) => e.preventDefault()}>
-                        <div className={styles.forms}>
-                            <fieldset className={styles.fieldset}>
-                                <select value={customCenter} name="customCenter" className={styles.opt} onChange={e => setCustomCenter(e.target.value)}>
-                                    <option value="جمرك عمان">
-                                        جمرك عمان
-                                    </option>
-                                    <option value="جمرك جابر">
-                                        جمرك جابر
-                                    </option>
-                                    <option value="جمرك العمري">
-                                        جمرك العمري
-                                    </option>
-                                    <option value="جمرك العقبة">
-                                        جمرك العقبة
-                                    </option>
-                                </select>
-                                <label className={styles.label2} htmlFor='customCenter'>
-                                    المركز الجمركي
-                                </label>
-                            </fieldset>
-                            <fieldset className={styles.fieldset}>
-                                <input value={clearanceNo} name='clearanceNo' onChange={e => setClearanceNo(e.target.value)} required/>
-                                <label className={styles.label2}  htmlFor='clearanceNo'>
-                                    رقم البيان الجمركي
-                                </label>
-                            </fieldset>
-                            <fieldset className={styles.fieldset}>
-                                <input value={clearanceDate} name='clearanceDate' type="date" className={styles.opt} onChange={e => setClearanceDate(e.target.value)} required/>
-                                <label className={styles.label2} htmlFor='clearanceDate'>
-                                    تاريخ البيان الجمركي
-                                </label>
-                            </fieldset>
-                            <fieldset className={styles.fieldset}>
-                                <select value={healthPath} name="healthPath" className={styles.opt} onChange={e => setHealthPath(e.target.value)}>
-                                    <option value="Red">
-                                        Red
-                                    </option>
-                                    <option value="Yellow">
-                                        Yellow 
-                                    </option>
-                                    <option value="Green">
-                                        Green 
-                                    </option>
-                                </select>
-                                <label className={styles.label2} htmlFor='healthPath'>
-                                    المسرب الصحي
-                                </label>
-                            </fieldset>
-                            <fieldset className={styles.fieldset}>
-                                <select value={customPath} name="customPath" className={styles.opt} onChange={e => setCustomPath(e.target.value)}>
-                                    <option value="Red">
-                                        Red
-                                    </option>
-                                    <option value="Yellow">
-                                        Yellow 
-                                    </option>
-                                    <option value="Green">
-                                        Green 
-                                    </option>
-                                </select>
-                                <label className={styles.label2} htmlFor='customPath'>
-                                    المسرب الجمركي
-                                </label>
-                            </fieldset>
-                            <fieldset className={styles.fieldset}>
-                            <select value={agriPath} name="agriPath" className={styles.opt} onChange={e => setAgriPath(e.target.value)}>
-                                    <option value="Red">
-                                        Red
-                                    </option>
-                                    <option value="Yellow">
-                                        Yellow 
-                                    </option>
-                                    <option value="Green">
-                                        Green 
-                                    </option>
-                                </select>
-                                <label className={styles.label2} htmlFor='agriPath'>
-                                    المسرب الزراعي
-                                </label>
-                            </fieldset>
-                            <fieldset className={styles.fieldset}>
-                                <input value={customeInsurance} name='customeInsurance' onChange={e => setCustomeInsurance(e.target.value)} required/>
-                                <label className={styles.label2} htmlFor='customeInsurance'>
-                                    التأمينات الجمركية
-                                </label>
-                            </fieldset>
-                            <fieldset className={styles.fieldset}>
-                                <input value={clearanceFinish} name='clearanceFinish' type="date" className={styles.opt} onChange={e => setClearanceFinish(e.target.value)} required/>
-                                <label className={styles.label2} htmlFor='clearanceFinish'>
-                                    إنجاز البيان
-                                </label>
-                            </fieldset>
-                            <fieldset className={styles.fieldset}>
-                                <select value={requiredAction} name="requiredAction" className={styles.opt} onChange={e => setRequiredAction(e.target.value)}>
-                                    <option value="تسليم المستندات">
-                                        تسليم المستندات
-                                    </option>
-                                    <option value="استلام إذن التسليم">
-                                        استلام إذن التسليم
-                                    </option>
-                                    <option value="تفعيل إذن التسليم">
-                                        تفعيل إذن التسليم
-                                    </option>
-                                    <option value="تنظيم البيان">
-                                        تنظيم البيان
-                                    </option>
-                                    <option value="تخمين البيان">
-                                        تخمين البيان
-                                    </option>
-                                    <option value="دفع البيان">
-                                        دفع البيان
-                                    </option>
-                                    <option value="تحميل من الميناء">
-                                        تحميل من الميناء
-                                    </option>
-                                    <option value="معاينة مع عينة">
-                                        معاينة مع عينة
-                                    </option>
-                                    <option value="معاينة بدون عينة">
-                                        معاينة بدون عينة
-                                    </option>
-                                    <option value="تصريح خروج">
-                                        تصريح خروج
-                                    </option>
-                                    <option value="وصلت">
-                                        وصلت
-                                    </option>
-                                    <option value="نتائج">
-                                        نتائج
-                                    </option>
-                                    <option value="إنجاز">
-                                        إنجاز
-                                    </option>
-                                </select>
-                                <label className={styles.label2} htmlFor='requiredAction'>
-                                    الإجراء المطلوب
-                                </label>
-                            </fieldset>
-                        </div>
-                        <FileUpload/>
-                    </form>
-                </div>
+                <form>
+                    <div style={{width:'100%'}}>
+                        <h2 style={{textAlign:"center"}}>
+                            بيانات الطلب
+                        </h2>
+                    </div>
+                    <fieldset className={styles.fieldset}>
+                        <input name="BL" readOnly value={data.BL}/>
+                        <label className={styles.label} htmlFor='BL'>
+                            رقم البوليصة
+                        </label>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <input name='U_ShippingMethod' readOnly value={data.U_ShippingMethod}/>
+                        <label className={styles.label}  htmlFor='U_ShippingMethod'>
+                            طريقة التخليص
+                        </label>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <input name='U_ShippingCompany' readOnly value={data.U_ShippingCompany}/>
+                        <label className={styles.label} htmlFor='U_ShippingCompany'>
+                            شركة الشحن
+                        </label>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <input name='U_NoofContainer' readOnly value={data.U_NoofContainer}/>
+                        <label className={styles.label} htmlFor='U_NoofContainer'>
+                            عدد الحاويات
+                        </label>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <input name='U_ContainerNo' readOnly value={data.U_ContainerNo}/>
+                        <label className={styles.label} htmlFor='U_ContainerNo'>
+                            أرقام الحاويات
+                        </label>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <input name='U_ETS' readOnly value={data.U_ETS.substring(10,-1)}/>
+                        <label className={styles.label} htmlFor='U_ETS'>
+                            موعد الشحن
+                        </label>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <input name="U_ETA" readOnly value={data.U_ETA.substring(10,-1)}/>
+                        <label className={styles.label} htmlFor='U_ETA'>
+                            موعد الوصول
+                        </label>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <input name='U_StorageMethod' readOnly value={data.U_StorageMethod}/>
+                        <label className={styles.label} htmlFor='U_StorageMethod'>
+                            طريقة التخزين
+                        </label>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <input name='U_ClearanceCompany' readOnly value={data.U_ClearanceCompany}/>
+                        <label className={styles.label} htmlFor='U_ClearanceCompany'>
+                            شركة التخليص
+                        </label>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <input name='U_PO_Status' readOnly value={data.U_PO_Status}/>
+                        <label className={styles.label} htmlFor='U_PO_Status'>
+                            حالة الطلب
+                        </label>
+                    </fieldset>
+                </form>     
             </div>
-            <form>
-                <div style={{width:'100%'}}>
-                    <h2 style={{textAlign:"center"}}>
-                        بيانات الطلب
-                    </h2>
+            {history.length > 0?
+                <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center',marginTop:'25px'}}>
+                    {loading?
+                        <SendingLoader/>
+                    :
+                        <div className={styles.logContainer}>
+                            <h2 style={{textAlign:"center"}}>
+                                سجل البيانات
+                            </h2>
+                            <div style={{width:'100%',overflowX:'scroll'}}>
+                                <table className={styles.table}>
+                                    <thead>
+                                        <tr className={styles.headerTr}>
+                                            <th key={0} className={styles.th}>رقم</th>
+                                            <th key={1} className={styles.th}>رقم البوليصة</th>
+                                            <th key={2} className={styles.th}>المركز الجمركي</th>
+                                            <th key={3} className={styles.th}>رقم البيان الجمركي</th>
+                                            <th key={4} className={styles.th}>تاريخ البيان الجمركي</th>
+                                            <th key={5} className={styles.th}>المسرب الصحي</th>
+                                            <th key={6} className={styles.th}>المسرب الجمركي</th>
+                                            <th key={7} className={styles.th}>المسرب الصحي</th>
+                                            <th key={8} className={styles.th}>الإجراء المطلوب</th>
+                                            <th key={9} className={styles.th}>إنجاز البيان</th>
+                                            <th key={10} className={styles.th}>التأمينات الجمركية</th>
+                                            <th key={11} className={styles.th}>اسم ملف البيان الجمركي</th>
+                                            <th key={12} className={styles.th}>اسم ملف فواتير التخليص</th>
+                                            <th key={13} className={styles.th}>اسم ملف نموذج سحب العينات</th>
+                                            <th key={14} className={styles.th}>اسم ملف نتائج البيانات والانجازات</th>
+                                            <th key={15} className={styles.th}>تاريخ ادخال البيانات</th>
+                                            <th key={16} className={styles.th}>المستخدم</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {historyLog()}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
                 </div>
-                <fieldset className={styles.fieldset}>
-                    <input name="BL" readOnly value={data.BL}/>
-                    <label className={styles.label} htmlFor='BL'>
-                        رقم البوليصة
-                    </label>
-                </fieldset>
-                <fieldset className={styles.fieldset}>
-                    <input name='U_ShippingMethod' readOnly value={data.U_ShippingMethod}/>
-                    <label className={styles.label}  htmlFor='U_ShippingMethod'>
-                        طريقة التخليص
-                    </label>
-                </fieldset>
-                <fieldset className={styles.fieldset}>
-                    <input name='U_ShippingCompany' readOnly value={data.U_ShippingCompany}/>
-                    <label className={styles.label} htmlFor='U_ShippingCompany'>
-                        شركة الشحن
-                    </label>
-                </fieldset>
-                <fieldset className={styles.fieldset}>
-                    <input name='U_NoofContainer' readOnly value={data.U_NoofContainer}/>
-                    <label className={styles.label} htmlFor='U_NoofContainer'>
-                        عدد الحاويات
-                    </label>
-                </fieldset>
-                <fieldset className={styles.fieldset}>
-                    <input name='U_ContainerNo' readOnly value={data.U_ContainerNo}/>
-                    <label className={styles.label} htmlFor='U_ContainerNo'>
-                        أرقام الحاويات
-                    </label>
-                </fieldset>
-                <fieldset className={styles.fieldset}>
-                    <input name='U_ETS' readOnly value={data.U_ETS.substring(10,-1)}/>
-                    <label className={styles.label} htmlFor='U_ETS'>
-                        موعد الشحن
-                    </label>
-                </fieldset>
-                <fieldset className={styles.fieldset}>
-                    <input name="U_ETA" readOnly value={data.U_ETA.substring(10,-1)}/>
-                    <label className={styles.label} htmlFor='U_ETA'>
-                        موعد الوصول
-                    </label>
-                </fieldset>
-                <fieldset className={styles.fieldset}>
-                    <input name='U_StorageMethod' readOnly value={data.U_StorageMethod}/>
-                    <label className={styles.label} htmlFor='U_StorageMethod'>
-                        طريقة التخزين
-                    </label>
-                </fieldset>
-                <fieldset className={styles.fieldset}>
-                    <input name='U_ClearanceCompany' readOnly value={data.U_ClearanceCompany}/>
-                    <label className={styles.label} htmlFor='U_ClearanceCompany'>
-                        شركة التخليص
-                    </label>
-                </fieldset>
-                <fieldset className={styles.fieldset}>
-                    <input name='U_PO_Status' readOnly value={data.U_PO_Status}/>
-                    <label className={styles.label} htmlFor='U_PO_Status'>
-                        حالة الطلب
-                    </label>
-                </fieldset>
-            </form>     
+            :
+                <></>
+            }
         </div>
     )
 }
