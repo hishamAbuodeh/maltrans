@@ -46,7 +46,7 @@ export default function Account(props){
         if(username != "" && password != ""){
             setLoading(true)
             axios({
-                baseURL:'http://localhost:3030',
+                baseURL:'http://192.168.90.15:3030',
                 url: '/check-maltrans-user',
                 method: 'post',
                 headers: {

@@ -3,17 +3,17 @@ import styles from '../styles/Maltrans.module.scss'
 import ConfirmModal from './confirmModal';
 import SendingLoader from './sendingLoader';
 
-export default function MaltransData({data,tokenKey,logout,username}){
+export default function MaltransData({data,tokenKey,logout,username,updatedData,setHistData}){
 
-    const [customCenter, setCustomCenter] = useState("جمرك عمان");
-    const [clearanceNo, setClearanceNo] = useState();
-    const [clearanceDate, setClearanceDate] = useState();
-    const [healthPath, setHealthPath] = useState("Red");
-    const [customPath, setCustomPath] = useState("Red");
-    const [agriPath, setAgriPath] = useState("Red");
-    const [customeInsurance, setCustomeInsurance] = useState();
-    const [clearanceFinish, setClearanceFinish] = useState();
-    const [requiredAction, setRequiredAction] = useState("تسليم المستندات");
+    const [customCenter, setCustomCenter] = useState(updatedData.customCenter);
+    const [clearanceNo, setClearanceNo] = useState(updatedData.clearanceNo);
+    const [clearanceDate, setClearanceDate] = useState(updatedData.clearanceDate);
+    const [healthPath, setHealthPath] = useState(updatedData.healthPath);
+    const [customPath, setCustomPath] = useState(updatedData.customPath);
+    const [agriPath, setAgriPath] = useState(updatedData.agriPath);
+    const [customeInsurance, setCustomeInsurance] = useState(updatedData.customeInsurance);
+    const [clearanceFinish, setClearanceFinish] = useState(updatedData.clearanceFinish);
+    const [requiredAction, setRequiredAction] = useState(updatedData.requiredAction);
     const [token, setToken] = useState(tokenKey)
     const [user, setUser] = useState(username)
 
@@ -175,7 +175,7 @@ export default function MaltransData({data,tokenKey,logout,username}){
                 setIsSending(true)
                 try{
                     fetch(
-                        'http://localhost:3030/save-maltrans-data',
+                        'http://192.168.90.15:3030/save-maltrans-data',
                         {
                             method: 'POST',
                             headers: {
@@ -193,6 +193,12 @@ export default function MaltransData({data,tokenKey,logout,username}){
                                 setTimeout(() => {
                                     logout()
                                 },1500)
+                            }
+                            if(result.msg != "Submit is Done"){
+                                setSuccess(false)
+                            }else{
+                                console.log(result.data)
+                                setHistData(result.data)
                             }
                             setMsg(result.msg)
                             setIsMsg(true)
@@ -330,7 +336,7 @@ export default function MaltransData({data,tokenKey,logout,username}){
                     <form onSubmit={(e) => e.preventDefault()}>
                         <div className={styles.forms}>
                             <fieldset className={styles.fieldset}>
-                                <select name="customCenter" className={styles.opt} onChange={e => setCustomCenter(e.target.value)}>
+                                <select value={customCenter} name="customCenter" className={styles.opt} onChange={e => setCustomCenter(e.target.value)}>
                                     <option value="جمرك عمان">
                                         جمرك عمان
                                     </option>
@@ -349,19 +355,19 @@ export default function MaltransData({data,tokenKey,logout,username}){
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
-                                <input name='clearanceNo' onChange={e => setClearanceNo(e.target.value)} required/>
+                                <input value={clearanceNo} name='clearanceNo' onChange={e => setClearanceNo(e.target.value)} required/>
                                 <label className={styles.label2}  htmlFor='clearanceNo'>
                                     رقم البيان الجمركي
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
-                                <input name='clearanceDate' type="date" className={styles.opt} onChange={e => setClearanceDate(e.target.value)} required/>
+                                <input value={clearanceDate} name='clearanceDate' type="date" className={styles.opt} onChange={e => setClearanceDate(e.target.value)} required/>
                                 <label className={styles.label2} htmlFor='clearanceDate'>
                                     تاريخ البيان الجمركي
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
-                                <select name="healthPath" className={styles.opt} onChange={e => setHealthPath(e.target.value)}>
+                                <select value={healthPath} name="healthPath" className={styles.opt} onChange={e => setHealthPath(e.target.value)}>
                                     <option value="Red">
                                         Red
                                     </option>
@@ -377,7 +383,7 @@ export default function MaltransData({data,tokenKey,logout,username}){
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
-                                <select name="customPath" className={styles.opt} onChange={e => setCustomPath(e.target.value)}>
+                                <select value={customPath} name="customPath" className={styles.opt} onChange={e => setCustomPath(e.target.value)}>
                                     <option value="Red">
                                         Red
                                     </option>
@@ -393,7 +399,7 @@ export default function MaltransData({data,tokenKey,logout,username}){
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
-                            <select name="agriPath" className={styles.opt} onChange={e => setAgriPath(e.target.value)}>
+                            <select value={agriPath} name="agriPath" className={styles.opt} onChange={e => setAgriPath(e.target.value)}>
                                     <option value="Red">
                                         Red
                                     </option>
@@ -409,19 +415,19 @@ export default function MaltransData({data,tokenKey,logout,username}){
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
-                                <input name='customeInsurance' onChange={e => setCustomeInsurance(e.target.value)} required/>
+                                <input value={customeInsurance} name='customeInsurance' onChange={e => setCustomeInsurance(e.target.value)} required/>
                                 <label className={styles.label2} htmlFor='customeInsurance'>
                                     التأمينات الجمركية
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
-                                <input name='clearanceFinish' type="date" className={styles.opt} onChange={e => setClearanceFinish(e.target.value)} required/>
+                                <input value={clearanceFinish} name='clearanceFinish' type="date" className={styles.opt} onChange={e => setClearanceFinish(e.target.value)} required/>
                                 <label className={styles.label2} htmlFor='clearanceFinish'>
                                     إنجاز البيان
                                 </label>
                             </fieldset>
                             <fieldset className={styles.fieldset}>
-                                <select name="requiredAction" className={styles.opt} onChange={e => setRequiredAction(e.target.value)}>
+                                <select value={requiredAction} name="requiredAction" className={styles.opt} onChange={e => setRequiredAction(e.target.value)}>
                                     <option value="تسليم المستندات">
                                         تسليم المستندات
                                     </option>
