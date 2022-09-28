@@ -215,7 +215,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 setIsSending(true)
                 try{
                     fetch(
-                        'http://192.168.90.15:3030/save-maltrans-data',
+                        'http://194.165.152.206:3030/save-maltrans-data',
                         {
                             method: 'POST',
                             headers: {

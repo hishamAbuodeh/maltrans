@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default function handler(req, res) {
     let data = req.body
-    const baseURL = 'http://192.168.90.15:3030'
+    const baseURL = 'http://194.165.152.206:3030'
     console.log(data)
     try{
         axios({
