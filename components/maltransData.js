@@ -61,6 +61,16 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
         })
     }
 
+    const containeNo = (data) => {
+        return data.map(item => {
+            return (
+                <option key={item}>
+                    {item}
+                </option>
+            )
+        })
+    }
+
     function FileUpload(){
         const [selectedFileOne, setSelectedFileOne] = useState();
         const [selectedFileTwo, setSelectedFileTwo] = useState();
@@ -548,7 +558,9 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <input name='U_ContainerNo' readOnly value={data.U_ContainerNo}/>
+                        <select name='U_ContainerNo'  style={{padding: '3px',width: '170px'}} readOnly>
+                            {containeNo(data.U_ContainerNo)}
+                        </select>
                         <label className={styles.label} htmlFor='U_ContainerNo'>
                             أرقام الحاويات
                         </label>
