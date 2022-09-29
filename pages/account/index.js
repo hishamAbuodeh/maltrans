@@ -46,7 +46,7 @@ export default function Account(props){
         if(username != "" && password != ""){
             setLoading(true)
             axios({
-                baseURL:'http://https://alrayhan-rate.herokuapp.com/maltrans',
+                baseURL:'https://alrayhan-rate.herokuapp.com/maltrans',
                 url: '/check-maltrans-user',
                 method: 'post',
                 headers: {
