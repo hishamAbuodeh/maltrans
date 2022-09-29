@@ -115,6 +115,7 @@ export default function Home(props){
                     setTimeout(() => {
                         setInnerLoading(false)
                         if(res.data.status == "success"){
+                            res.data.data.mainData.U_ContainerNo = res.data.data.mainData.U_ContainerNo.split('/')
                             setBillData(res.data.data.mainData)
                             if(res.data.data.isUpdated == "1"){
                                 res.data.data.updatedData.clearanceDate = res.data.data.updatedData.clearanceDate.split("T")[0]
