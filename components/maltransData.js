@@ -606,9 +606,9 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                             <th key={5} className={styles.th}>المسرب الصحي</th>
                                             <th key={6} className={styles.th}>المسرب الجمركي</th>
                                             <th key={7} className={styles.th}>المسرب الصحي</th>
-                                            <th key={8} className={styles.th}>الإجراء المطلوب</th>
+                                            <th key={8} className={styles.th}>التأمينات الجمركية</th>
                                             <th key={9} className={styles.th}>إنجاز البيان</th>
-                                            <th key={10} className={styles.th}>التأمينات الجمركية</th>
+                                            <th key={10} className={styles.th}>الإجراء المطلوب</th>
                                             <th key={11} className={styles.th}>اسم ملف البيان الجمركي</th>
                                             <th key={12} className={styles.th}>اسم ملف فواتير التخليص</th>
                                             <th key={13} className={styles.th}>اسم ملف نموذج سحب العينات</th>
