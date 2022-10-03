@@ -119,7 +119,11 @@ export default function Home(props){
                             setBillData(res.data.data.mainData)
                             if(res.data.data.isUpdated == "1"){
                                 res.data.data.updatedData.clearanceDate = res.data.data.updatedData.clearanceDate.split("T")[0]
-                                res.data.data.updatedData.clearanceFinish = res.data.data.updatedData.clearanceFinish.split("T")[0]
+                                if(res.data.data.updatedData.requiredAction == "إنجاز"){
+                                    res.data.data.updatedData.clearanceFinish = res.data.data.updatedData.clearanceFinish.split("T")[0]
+                                }else{
+                                    res.data.data.updatedData.clearanceFinish = ""
+                                }
                                 setUpdatedData(res.data.data.updatedData)
                             }
                             if(res.data.data.isHistory == "1"){

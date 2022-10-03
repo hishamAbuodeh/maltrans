@@ -88,9 +88,19 @@
     width: 170px;
     font-size: 15px;
     border: solid 1px;
+    font-weight: bold;
+}
+
+.textInput{
+    height: 25px;
+    width: 170px;
+    font-size: 15px;
+    border: solid 1px;
+    font-weight: bold;
 }
 
 .input[type="file"]{
+    font-weight: bold;
     width: 190px;
     -webkit-appearance: none;
     text-align: left;
