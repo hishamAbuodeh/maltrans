@@ -396,7 +396,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     <div className={styles.info}>
                         <form onSubmit={(e) => e.preventDefault()}>
                             <div className={styles.forms}>
-                                {customCenter == ""?
+                                {clearanceNo == ""?
                                     <fieldset className={styles.fieldset}>
                                         <select value={customCenter} name="customCenter" className={styles.opt} onChange={e => setCustomCenter(e.target.value)}>
                                             <option value="جمرك عمان">
