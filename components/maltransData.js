@@ -396,7 +396,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     <div className={styles.info}>
                         <form onSubmit={(e) => e.preventDefault()}>
                             <div className={styles.forms}>
-                                {clearanceNo == ""?
+                                {updatedData.clearanceNo == ""?
                                     <fieldset className={styles.fieldset}>
                                         <select value={customCenter} name="customCenter" className={styles.opt} onChange={e => setCustomCenter(e.target.value)}>
                                             <option value="جمرك عمان">
@@ -424,7 +424,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                         </label>
                                     </fieldset>
                                 }
-                                {clearanceNo == ""?
+                                {updatedData.clearanceNo == ""?
                                     <fieldset className={styles.fieldset}>
                                         <input className={styles.textInput} value={clearanceNo} name='clearanceNo' onChange={e => setClearanceNo(e.target.value)} required/>
                                         <label className={styles.label2}  htmlFor='clearanceNo'>
@@ -439,7 +439,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                         </label>
                                     </fieldset>
                                 }
-                                {clearanceDate == ""?
+                                {updatedData.clearanceDate == ""?
                                     <fieldset className={styles.fieldset}>
                                         <input value={clearanceDate} name='clearanceDate' type="date" className={styles.opt} onChange={e => setClearanceDate(e.target.value)} required/>
                                         <label className={styles.label2} htmlFor='clearanceDate'>
