@@ -21,6 +21,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
     const [success, setSuccess] = useState(true)
     const [history, setHistory] = useState(histData)
     const [loading, setLoading] = useState(false)
+    const [isSending, setIsSending] = useState(false)
 
     useEffect(() => {
         if(!loading){
@@ -37,6 +38,9 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
             return parseInt(b.ID) - parseInt(a.ID)
         })
         .map((item,index) => {
+            if(item.requiredAction != "إنجاز"){
+                item.clearanceFinish = "لا يوجد"
+            }
             return(
                 <tr key={`tr-${index}`} className={styles.innerTr}>
                     <td key={index.toString() + "-" + '0'} className={styles.td}>{index + 1}</td>
@@ -48,7 +52,11 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     <td key={index.toString() + "-" + '6'} className={styles.td}>{item.customPath}</td>
                     <td key={index.toString() + "-" + '7'} className={styles.td}>{item.agriPath}</td>
                     <td key={index.toString() + "-" + '8'} className={styles.td}>{item.customeInsurance}</td>
-                    <td key={index.toString() + "-" + '9'} className={styles.td}>{item.clearanceFinish}</td>
+                    {history[0].requiredAction == "إنجاز"?
+                        <td key={index.toString() + "-" + '9'} className={styles.td}>{item.clearanceFinish}</td>
+                    :   
+                        <></>
+                    }
                     <td key={index.toString() + "-" + '10'} className={styles.td}>{item.requiredAction}</td>
                     <td key={index.toString() + "-" + '11'} className={styles.td}>{item.customeDeclaration != "no file"? item.customeDeclaration.split("pdf\\")[1] : "no file"}</td>
                     <td key={index.toString() + "-" + '12'} className={styles.td}>{item.clearanceBill != "no file"? item.clearanceBill.split("pdf\\")[1] : "no file"}</td>
@@ -80,7 +88,6 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
         const [isSelectedTwo, setIsSelectedTwo] = useState(false);
         const [isSelectedThree, setIsSelectedThree] = useState(false);
         const [isSelectedFour, setIsSelectedFour] = useState(false);
-        const [isSending, setIsSending] = useState(false)
 
         const ref1 = useRef()
         const ref2 = useRef()
@@ -207,7 +214,8 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 setSuccess(true)
                 setIsMsg(false)
             }
-            if( customCenter &&  clearanceNo && clearanceDate && healthPath && customPath && agriPath && customeInsurance && clearanceFinish && requiredAction){
+            if( customCenter &&  clearanceNo && clearanceDate && healthPath && customPath && agriPath && customeInsurance && requiredAction && (requiredAction == "إنجاز"? (clearanceFinish != "") : true)){
+                setIsSending(true)
                 const formData = new FormData();
                 formData.append('BL', data.BL);
                 formData.append('customCenter', customCenter);
@@ -222,7 +230,6 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 formData.append('UserName', user);
                 const dataToBase64 = await convertFiles(formData)
                 console.log(dataToBase64)
-                setIsSending(true)
                 try{
                     fetch(
                         'https://alrayhan-rate.herokuapp.com/maltrans/save-maltrans-data',
@@ -269,6 +276,10 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                         setMsg("server shutdown or connection lost!, please try again")
                     },1500)
                 }
+            }else{
+                setSuccess(false)
+                setIsMsg(true)
+                setMsg("missing fields, please fill all fields")
             }
         };
     
@@ -385,37 +396,64 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     <div className={styles.info}>
                         <form onSubmit={(e) => e.preventDefault()}>
                             <div className={styles.forms}>
-                                <fieldset className={styles.fieldset}>
-                                    <select value={customCenter} name="customCenter" className={styles.opt} onChange={e => setCustomCenter(e.target.value)}>
-                                        <option value="جمرك عمان">
-                                            جمرك عمان
-                                        </option>
-                                        <option value="جمرك جابر">
-                                            جمرك جابر
-                                        </option>
-                                        <option value="جمرك العمري">
-                                            جمرك العمري
-                                        </option>
-                                        <option value="جمرك العقبة">
-                                            جمرك العقبة
-                                        </option>
-                                    </select>
-                                    <label className={styles.label2} htmlFor='customCenter'>
-                                        المركز الجمركي
-                                    </label>
-                                </fieldset>
-                                <fieldset className={styles.fieldset}>
-                                    <input value={clearanceNo} name='clearanceNo' onChange={e => setClearanceNo(e.target.value)} required/>
-                                    <label className={styles.label2}  htmlFor='clearanceNo'>
-                                        رقم البيان الجمركي
-                                    </label>
-                                </fieldset>
-                                <fieldset className={styles.fieldset}>
-                                    <input value={clearanceDate} name='clearanceDate' type="date" className={styles.opt} onChange={e => setClearanceDate(e.target.value)} required/>
-                                    <label className={styles.label2} htmlFor='clearanceDate'>
-                                        تاريخ البيان الجمركي
-                                    </label>
-                                </fieldset>
+                                {customCenter == ""?
+                                    <fieldset className={styles.fieldset}>
+                                        <select value={customCenter} name="customCenter" className={styles.opt} onChange={e => setCustomCenter(e.target.value)}>
+                                            <option value="جمرك عمان">
+                                                جمرك عمان
+                                            </option>
+                                            <option value="جمرك جابر">
+                                                جمرك جابر
+                                            </option>
+                                            <option value="جمرك العمري">
+                                                جمرك العمري
+                                            </option>
+                                            <option value="جمرك العقبة">
+                                                جمرك العقبة
+                                            </option>
+                                        </select>
+                                        <label className={styles.label2} htmlFor='customCenter'>
+                                            المركز الجمركي
+                                        </label>
+                                    </fieldset>
+                                :
+                                    <fieldset className={styles.fieldset}>
+                                        <input className={styles.textInput} value={customCenter} name="customCenter" readOnly/>
+                                        <label className={styles.label2} htmlFor='customCenter'>
+                                            المركز الجمركي
+                                        </label>
+                                    </fieldset>
+                                }
+                                {clearanceNo == ""?
+                                    <fieldset className={styles.fieldset}>
+                                        <input className={styles.textInput} value={clearanceNo} name='clearanceNo' onChange={e => setClearanceNo(e.target.value)} required/>
+                                        <label className={styles.label2}  htmlFor='clearanceNo'>
+                                            رقم البيان الجمركي
+                                        </label>
+                                    </fieldset>
+                                :
+                                    <fieldset className={styles.fieldset}>
+                                        <input className={styles.textInput} value={clearanceNo} name='clearanceNo' readOnly/>
+                                        <label className={styles.label2}  htmlFor='clearanceNo'>
+                                            رقم البيان الجمركي
+                                        </label>
+                                    </fieldset>
+                                }
+                                {clearanceDate == ""?
+                                    <fieldset className={styles.fieldset}>
+                                        <input value={clearanceDate} name='clearanceDate' type="date" className={styles.opt} onChange={e => setClearanceDate(e.target.value)} required/>
+                                        <label className={styles.label2} htmlFor='clearanceDate'>
+                                            تاريخ البيان الجمركي
+                                        </label>
+                                    </fieldset>
+                                :
+                                    <fieldset className={styles.fieldset}>
+                                        <input className={styles.textInput} value={clearanceDate} name='clearanceDate' readOnly/>
+                                        <label className={styles.label2} htmlFor='clearanceDate'>
+                                            تاريخ البيان الجمركي
+                                        </label>
+                                    </fieldset>
+                                }
                                 <fieldset className={styles.fieldset}>
                                     <select value={healthPath} name="healthPath" className={styles.opt} onChange={e => setHealthPath(e.target.value)}>
                                         <option value="Red">
@@ -465,17 +503,21 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                     </label>
                                 </fieldset>
                                 <fieldset className={styles.fieldset}>
-                                    <input value={customeInsurance} name='customeInsurance' onChange={e => setCustomeInsurance(e.target.value)} required/>
+                                    <input className={styles.textInput} value={customeInsurance} name='customeInsurance' onChange={e => setCustomeInsurance(e.target.value)} required/>
                                     <label className={styles.label2} htmlFor='customeInsurance'>
                                         التأمينات الجمركية
                                     </label>
                                 </fieldset>
-                                <fieldset className={styles.fieldset}>
-                                    <input value={clearanceFinish} name='clearanceFinish' type="date" className={styles.opt} onChange={e => setClearanceFinish(e.target.value)} required/>
-                                    <label className={styles.label2} htmlFor='clearanceFinish'>
-                                        إنجاز البيان
-                                    </label>
-                                </fieldset>
+                                {requiredAction == "إنجاز"?
+                                    <fieldset className={styles.fieldset}>
+                                        <input value={clearanceFinish} name='clearanceFinish' type="date" className={styles.opt} onChange={e => setClearanceFinish(e.target.value)} required/>
+                                        <label className={styles.label2} htmlFor='clearanceFinish'>
+                                            إنجاز البيان
+                                        </label>
+                                    </fieldset>
+                                :
+                                    <></>
+                                }
                                 <fieldset className={styles.fieldset}>
                                     <select value={requiredAction} name="requiredAction" className={styles.opt} onChange={e => setRequiredAction(e.target.value)}>
                                         <option value="تسليم المستندات">
@@ -534,31 +576,31 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                         </h2>
                     </div>
                     <fieldset className={styles.fieldset}>
-                        <input name="BL" readOnly value={data.BL}/>
+                        <input className={styles.textInput} name="BL" readOnly value={data.BL}/>
                         <label className={styles.label} htmlFor='BL'>
                             رقم البوليصة
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <input name='U_ShippingMethod' readOnly value={data.U_ShippingMethod}/>
+                        <input className={styles.textInput} name='U_ShippingMethod' readOnly value={data.U_ShippingMethod}/>
                         <label className={styles.label}  htmlFor='U_ShippingMethod'>
                             طريقة التخليص
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <input name='U_ShippingCompany' readOnly value={data.U_ShippingCompany}/>
+                        <input className={styles.textInput} name='U_ShippingCompany' readOnly value={data.U_ShippingCompany}/>
                         <label className={styles.label} htmlFor='U_ShippingCompany'>
                             شركة الشحن
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <input name='U_NoofContainer' readOnly value={data.U_NoofContainer}/>
+                        <input className={styles.textInput} name='U_NoofContainer' readOnly value={data.U_NoofContainer}/>
                         <label className={styles.label} htmlFor='U_NoofContainer'>
                             عدد الحاويات
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <select name='U_ContainerNo'  style={{padding: '3px',width: '170px'}} readOnly>
+                        <select name='U_ContainerNo'  className={styles.opt} readOnly>
                             {containeNo(data.U_ContainerNo)}
                         </select>
                         <label className={styles.label} htmlFor='U_ContainerNo'>
@@ -566,31 +608,31 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <input name='U_ETS' readOnly value={data.U_ETS.substring(10,-1)}/>
+                        <input className={styles.textInput} name='U_ETS' readOnly value={data.U_ETS.substring(10,-1)}/>
                         <label className={styles.label} htmlFor='U_ETS'>
                             موعد الشحن
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <input name="U_ETA" readOnly value={data.U_ETA.substring(10,-1)}/>
+                        <input className={styles.textInput} name="U_ETA" readOnly value={data.U_ETA.substring(10,-1)}/>
                         <label className={styles.label} htmlFor='U_ETA'>
                             موعد الوصول
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <input name='U_StorageMethod' readOnly value={data.U_StorageMethod}/>
+                        <input className={styles.textInput} name='U_StorageMethod' readOnly value={data.U_StorageMethod}/>
                         <label className={styles.label} htmlFor='U_StorageMethod'>
                             طريقة التخزين
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <input name='U_ClearanceCompany' readOnly value={data.U_ClearanceCompany}/>
+                        <input className={styles.textInput} name='U_ClearanceCompany' readOnly value={data.U_ClearanceCompany}/>
                         <label className={styles.label} htmlFor='U_ClearanceCompany'>
                             شركة التخليص
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <input name='U_PO_Status' readOnly value={data.U_PO_Status}/>
+                        <input className={styles.textInput} name='U_PO_Status' readOnly value={data.U_PO_Status}/>
                         <label className={styles.label} htmlFor='U_PO_Status'>
                             حالة الطلب
                         </label>
@@ -619,7 +661,11 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                             <th key={6} className={styles.th}>المسرب الجمركي</th>
                                             <th key={7} className={styles.th}>المسرب الصحي</th>
                                             <th key={8} className={styles.th}>التأمينات الجمركية</th>
-                                            <th key={9} className={styles.th}>إنجاز البيان</th>
+                                            {history[0].requiredAction == "إنجاز"?
+                                                <th key={9} className={styles.th}>إنجاز البيان</th>
+                                            :   
+                                                <></>
+                                            }
                                             <th key={10} className={styles.th}>الإجراء المطلوب</th>
                                             <th key={11} className={styles.th}>اسم ملف البيان الجمركي</th>
                                             <th key={12} className={styles.th}>اسم ملف فواتير التخليص</th>
