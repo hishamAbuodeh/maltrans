@@ -65,7 +65,8 @@ export default function Home(props){
             agriPath:"Red",
             customeInsurance:"",
             clearanceFinish:"",
-            requiredAction:"تسليم المستندات"
+            requiredAction:"تسليم المستندات",
+            DocDone:"غير منجز"
         })
         const [histData, setHistData] = useState([])
         const [msg,setMsg] = useState("")
@@ -84,7 +85,8 @@ export default function Home(props){
                 agriPath:"Red",
                 customeInsurance:"",
                 clearanceFinish:"",
-                requiredAction:"تسليم المستندات"
+                requiredAction:"تسليم المستندات",
+                DocDone:"غير منجز"
             })
             setHistData([])
         }
@@ -100,7 +102,7 @@ export default function Home(props){
                 prevBillNo = billNo
                 setInnerLoading(true)
                 axios({
-                    baseURL:'https://alrayhan-rate.herokuapp.com/maltrans',
+                    baseURL:'http://localhost:3030',
                     url: '/bill-of-lading',
                     method: 'post',
                     headers: {
@@ -120,6 +122,8 @@ export default function Home(props){
                             if(res.data.data.isUpdated == "1"){
                                 res.data.data.updatedData.clearanceDate = res.data.data.updatedData.clearanceDate.split("T")[0]
                                 if(res.data.data.updatedData.requiredAction == "إنجاز"){
+                                    res.data.data.updatedData.clearanceFinish = res.data.data.updatedData.clearanceFinish.split("T")[0]
+                                }else if(res.data.data.updatedData.DocDone == "منجز"){
                                     res.data.data.updatedData.clearanceFinish = res.data.data.updatedData.clearanceFinish.split("T")[0]
                                 }else{
                                     res.data.data.updatedData.clearanceFinish = ""
