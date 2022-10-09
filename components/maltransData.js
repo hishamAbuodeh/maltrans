@@ -14,6 +14,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
     const [customeInsurance, setCustomeInsurance] = useState(updatedData.customeInsurance);
     const [clearanceFinish, setClearanceFinish] = useState(updatedData.clearanceFinish);
     const [requiredAction, setRequiredAction] = useState(updatedData.requiredAction);
+    const [docDone, setDocDone] = useState(updatedData.DocDone);
     const [token, setToken] = useState(tokenKey)
     const [user, setUser] = useState(username)
     const [msg, setMsg] = useState("")
@@ -38,8 +39,10 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
             return parseInt(b.ID) - parseInt(a.ID)
         })
         .map((item,index) => {
-            if(item.requiredAction != "إنجاز"){
-                item.clearanceFinish = "لا يوجد"
+            if(item.DocDone != "منجز"){
+                if(item.requiredAction != "إنجاز"){
+                    item.clearanceFinish = "لا يوجد"
+                }
             }
             return(
                 <tr key={`tr-${index}`} className={styles.innerTr}>
@@ -52,12 +55,13 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     <td key={index.toString() + "-" + '6'} className={styles.td}>{item.customPath}</td>
                     <td key={index.toString() + "-" + '7'} className={styles.td}>{item.agriPath}</td>
                     <td key={index.toString() + "-" + '8'} className={styles.td}>{item.customeInsurance}</td>
-                    {history[0].requiredAction == "إنجاز"?
+                    <td key={index.toString() + "-" + '10'} className={styles.td}>{item.requiredAction}</td>
+                    <td key={index.toString() + "-" + '17'} className={styles.td}>{item.DocDone}</td>
+                    {(history[0].requiredAction == "إنجاز") || (history[0].DocDone == "منجز")?
                         <td key={index.toString() + "-" + '9'} className={styles.td}>{item.clearanceFinish}</td>
                     :   
                         <></>
                     }
-                    <td key={index.toString() + "-" + '10'} className={styles.td}>{item.requiredAction}</td>
                     <td key={index.toString() + "-" + '11'} className={styles.td}>{item.customeDeclaration != "no file"? item.customeDeclaration.split("pdf\\")[1] : "no file"}</td>
                     <td key={index.toString() + "-" + '12'} className={styles.td}>{item.clearanceBill != "no file"? item.clearanceBill.split("pdf\\")[1] : "no file"}</td>
                     <td key={index.toString() + "-" + '13'} className={styles.td}>{item.samplingModel != "no file"? item.samplingModel.split("pdf\\")[1] : "no file"}</td>
@@ -214,7 +218,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 setSuccess(true)
                 setIsMsg(false)
             }
-            if( customCenter &&  clearanceNo && clearanceDate && healthPath && customPath && agriPath && customeInsurance && requiredAction && (requiredAction == "إنجاز"? (clearanceFinish != "") : true)){
+            if( customCenter &&  clearanceNo && clearanceDate && healthPath && customPath && agriPath && customeInsurance && requiredAction && ((requiredAction == "إنجاز") || (docDone == "منجز")? (clearanceFinish != "") : true)){
                 setIsSending(true)
                 const formData = new FormData();
                 formData.append('BL', data.BL);
@@ -228,6 +232,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 formData.append('clearanceFinish', clearanceFinish);
                 formData.append('requiredAction', requiredAction);
                 formData.append('UserName', user);
+                formData.append('docDone', docDone);
                 const dataToBase64 = await convertFiles(formData)
                 console.log(dataToBase64)
                 try{
@@ -508,16 +513,6 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                         التأمينات الجمركية
                                     </label>
                                 </fieldset>
-                                {requiredAction == "إنجاز"?
-                                    <fieldset className={styles.fieldset}>
-                                        <input value={clearanceFinish} name='clearanceFinish' type="date" className={styles.opt} onChange={e => setClearanceFinish(e.target.value)} required/>
-                                        <label className={styles.label2} htmlFor='clearanceFinish'>
-                                            إنجاز البيان
-                                        </label>
-                                    </fieldset>
-                                :
-                                    <></>
-                                }
                                 <fieldset className={styles.fieldset}>
                                     <select value={requiredAction} name="requiredAction" className={styles.opt} onChange={e => setRequiredAction(e.target.value)}>
                                         <option value="تسليم المستندات">
@@ -564,6 +559,29 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                         الإجراء المطلوب
                                     </label>
                                 </fieldset>
+                                <fieldset className={styles.fieldset}>
+                                <select value={docDone} name="docDone" className={styles.opt} onChange={e => setDocDone(e.target.value)}>
+                                        <option value="غير منجز">
+                                            غير منجز
+                                        </option>
+                                        <option value="منجز">
+                                            منجز
+                                        </option>
+                                    </select>
+                                    <label className={styles.label2} htmlFor='docDone'>
+                                        حالة البيان
+                                    </label>
+                                </fieldset>
+                                {(requiredAction == "إنجاز") || (docDone == "منجز")?
+                                    <fieldset className={styles.fieldset}>
+                                        <input value={clearanceFinish} name='clearanceFinish' type="date" className={styles.opt} onChange={e => setClearanceFinish(e.target.value)} required/>
+                                        <label className={styles.label2} htmlFor='clearanceFinish'>
+                                            إنجاز البيان
+                                        </label>
+                                    </fieldset>
+                                :
+                                    <></>
+                                }
                             </div>
                             <FileUpload/>
                         </form>
@@ -661,12 +679,13 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                             <th key={6} className={styles.th}>المسرب الجمركي</th>
                                             <th key={7} className={styles.th}>المسرب الصحي</th>
                                             <th key={8} className={styles.th}>التأمينات الجمركية</th>
-                                            {history[0].requiredAction == "إنجاز"?
-                                                <th key={9} className={styles.th}>إنجاز البيان</th>
+                                            <th key={10} className={styles.th}>الإجراء المطلوب</th>
+                                            <th key={17} className={styles.th}>حالة البيان</th>
+                                            {(history[0].requiredAction == "إنجاز") || (history[0].DocDone == "منجز")?
+                                                <th key={9} className={styles.th}>تاريخ إنجاز البيان</th>
                                             :   
                                                 <></>
                                             }
-                                            <th key={10} className={styles.th}>الإجراء المطلوب</th>
                                             <th key={11} className={styles.th}>اسم ملف البيان الجمركي</th>
                                             <th key={12} className={styles.th}>اسم ملف فواتير التخليص</th>
                                             <th key={13} className={styles.th}>اسم ملف نموذج سحب العينات</th>
