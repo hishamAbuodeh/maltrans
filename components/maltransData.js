@@ -621,7 +621,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     </fieldset>
                     <fieldset className={styles.fieldset}>
                         <div className={styles.containerNoDiv}>
-                            <ContainerInfo containerNo={containerNO} tokenKey={token} username={user} bl={data.BL}/>
+                            <ContainerInfo containerNo={containerNO} tokenKey={token} username={user} bl={data.BL} logout={logout}/>
                             <select name='U_ContainerNo'  className={styles.opt2} onChange={e => setContainerNO(e.target.value)} readOnly>
                                 {containeNo(data.U_ContainerNo)}
                             </select>

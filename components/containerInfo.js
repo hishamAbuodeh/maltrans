@@ -5,7 +5,7 @@ import axios from 'axios';
 import ConfirmModal from './confirmModal';
 import SendingLoader from './sendingLoader';
 
-export default function ContainerInfo({containerNo,tokenKey,username,bl}){
+export default function ContainerInfo({containerNo,tokenKey,username,bl,logout}){
 
     const [token, setToken] = useState(tokenKey)
     const [user, setUser] = useState(username)
