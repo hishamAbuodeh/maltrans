@@ -24,12 +24,9 @@ export default function ContainerInfo({containerNo,tokenKey,username,bl}){
 
     useEffect(() => {
         if(isLoading){
-            console.log("loading")
             setTimeout(() => {
                 setIsLoading(false)
             },1500)
-        }else{
-            console.log("not loading")
         }
     },[isLoading])
 
