@@ -2,6 +2,7 @@ import {useState, useRef, useEffect} from 'react';
 import styles from '../styles/Maltrans.module.scss'
 import ConfirmModal from './confirmModal';
 import SendingLoader from './sendingLoader';
+import ContainerInfo from './containerInfo';
 
 export default function MaltransData({data,tokenKey,logout,username,updatedData,histData}){
 
@@ -23,6 +24,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
     const [history, setHistory] = useState(histData)
     const [loading, setLoading] = useState(false)
     const [isSending, setIsSending] = useState(false)
+    const [containerNO, setContainerNO] = useState(data.U_ContainerNo[0])
 
     useEffect(() => {
         if(!loading){
@@ -237,7 +239,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 console.log(dataToBase64)
                 try{
                     fetch(
-                        'https://alrayhan-rate.herokuapp.com/maltrans/save-maltrans-data',
+                        'http://maltrans.abuodehbros.com:3030/save-maltrans-data',
                         {
                             method: 'POST',
                             headers: {
@@ -618,9 +620,12 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <select name='U_ContainerNo'  className={styles.opt} readOnly>
-                            {containeNo(data.U_ContainerNo)}
-                        </select>
+                        <div className={styles.containerNoDiv}>
+                            <ContainerInfo containerNo={containerNO} tokenKey={token} username={user} bl={data.BL}/>
+                            <select name='U_ContainerNo'  className={styles.opt2} onChange={e => setContainerNO(e.target.value)} readOnly>
+                                {containeNo(data.U_ContainerNo)}
+                            </select>
+                        </div>
                         <label className={styles.label} htmlFor='U_ContainerNo'>
                             أرقام الحاويات
                         </label>
