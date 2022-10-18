@@ -89,6 +89,11 @@ export default function ContainerInfo({containerNo,tokenKey,username,bl,logout})
         setMsg("")
         setSuccess(true)
         setIsMsg(false)
+        setDriverName("")
+        setDriverNumber("")
+        setTruckNumber("")
+        setShippingName("")
+        setNote("")
     }
 
     const handleSubmission = async () => {
