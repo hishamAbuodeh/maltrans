@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default function handler(req, res) {
     let data = req.body
-    const baseURL = 'http://localhost:3030'
+    const baseURL = 'https://alrayhan-rate.herokuapp.com/maltrans'
     console.log(data)
     try{
         axios({

@@ -245,7 +245,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 console.log(dataToBase64)
                 try{
                     fetch(
-                        'http://localhost:3030/save-maltrans-data',
+                        'https://alrayhan-rate.herokuapp.com/maltrans/save-maltrans-data',
                         {
                             method: 'POST',
                             headers: {
