@@ -5,7 +5,7 @@ import axios from 'axios';
 import ConfirmModal from './confirmModal';
 import SendingLoader from './sendingLoader';
 
-export default function ContainerInfo({containerNo,tokenKey,username,bl,logout}){
+export default function ContainerInfo({containerNo,tokenKey,username,bl,logout,getContainerNo}){
 
     const [token, setToken] = useState(tokenKey)
     const [user, setUser] = useState(username)
@@ -23,6 +23,8 @@ export default function ContainerInfo({containerNo,tokenKey,username,bl,logout})
     const [success, setSuccess] = useState(true)
 
     useEffect(() => {
+        const value = getContainerNo()
+        setContainerNO(value)
         if(isLoading){
             try{
                 axios({
@@ -35,7 +37,7 @@ export default function ContainerInfo({containerNo,tokenKey,username,bl,logout})
                       'Authorization': `Bearer ${token}`
                     },
                     data: JSON.stringify({
-                        containerNo:containerNO,
+                        containerNo:value,
                         bL:bL,
                     })
                 }).then((res) => {
@@ -113,6 +115,7 @@ export default function ContainerInfo({containerNo,tokenKey,username,bl,logout})
             note:note,
             username:user
         }
+        console.log(containerNO)
         try{
             axios({
                 baseURL:'http://localhost:3030',
@@ -187,29 +190,29 @@ export default function ContainerInfo({containerNo,tokenKey,username,bl,logout})
                                             <label className={styles.label2}  htmlFor='note'>
                                                 ملاحظات
                                             </label>
-                                            <textarea className={styles.textarea} name='note' onChange={e => setNote(e.target.value)}/>
+                                            <textarea className={styles.textarea} name='note' value={note} onChange={e => setNote(e.target.value)}/>
                                         </fieldset>
                                         <div>
                                             <fieldset className={styles.fieldset}>
-                                                <input className={styles.textInput} name='driverName' onChange={e => setDriverName(e.target.value)}/>
+                                                <input className={styles.textInput} name='driverName' value={driverName} onChange={e => setDriverName(e.target.value)}/>
                                                 <label className={styles.label}  htmlFor='driverName'>
                                                     اسم السائق
                                                 </label>
                                             </fieldset>
                                             <fieldset className={styles.fieldset}>
-                                                <input className={styles.textInput} name='driverNumber' onChange={e => setDriverNumber(e.target.value)}/>
+                                                <input className={styles.textInput} name='driverNumber' value={driverNumber} onChange={e => setDriverNumber(e.target.value)}/>
                                                 <label className={styles.label}  htmlFor='driverNumber'>
                                                     رقم هاتف السائق
                                                 </label>
                                             </fieldset>
                                             <fieldset className={styles.fieldset}>
-                                                <input className={styles.textInput} name='truckNo' onChange={e => setTruckNumber(e.target.value)}/>
+                                                <input className={styles.textInput} name='truckNo' value={truckNumber} onChange={e => setTruckNumber(e.target.value)}/>
                                                 <label className={styles.label}  htmlFor='truckNo'>
                                                     رقم الشاحنة
                                                 </label>
                                             </fieldset>
                                             <fieldset className={styles.fieldset}>
-                                                <input className={styles.textInput} name='shippingName' onChange={e => setShippingName(e.target.value)}/>
+                                                <input className={styles.textInput} name='shippingName' value={shippingName} onChange={e => setShippingName(e.target.value)}/>
                                                 <label className={styles.label}  htmlFor='shippingName'>
                                                     اسم شركة النقل
                                                 </label>

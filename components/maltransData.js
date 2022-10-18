@@ -26,6 +26,12 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
     const [isSending, setIsSending] = useState(false)
     const [containerNO, setContainerNO] = useState(data.U_ContainerNo[0])
 
+    const containerRef = useRef()
+
+    const getContainerNo = () => {
+        return containerRef.current.value
+    }
+
     useEffect(() => {
         if(!loading){
             setLoading(true)
@@ -621,8 +627,8 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     </fieldset>
                     <fieldset className={styles.fieldset}>
                         <div className={styles.containerNoDiv}>
-                            <ContainerInfo containerNo={containerNO} tokenKey={token} username={user} bl={data.BL} logout={logout}/>
-                            <select name='U_ContainerNo'  className={styles.opt2} onChange={e => setContainerNO(e.target.value)} readOnly>
+                            <ContainerInfo containerNo={containerNO} tokenKey={token} username={user} bl={data.BL} logout={logout} getContainerNo={getContainerNo}/>
+                            <select ref={containerRef} name='U_ContainerNo'  className={styles.opt2} value={containerNO} onChange={e => {setContainerNO(e.target.value)}}>
                                 {containeNo(data.U_ContainerNo)}
                             </select>
                         </div>
