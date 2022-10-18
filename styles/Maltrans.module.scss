@@ -91,6 +91,22 @@
     font-weight: bold;
 }
 
+.opt2{
+    height: 25px;
+    width: 143px;
+    font-size: 15px;
+    border: none;
+    outline: none;
+    font-weight: bold;
+}
+
+.containerNoDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px;
+}
+
 .textInput{
     height: 25px;
     width: 170px;
@@ -188,3 +204,4 @@
     padding-top: 10px;
     text-align: center;
 }
+
