@@ -239,7 +239,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 console.log(dataToBase64)
                 try{
                     fetch(
-                        'http://maltrans.abuodehbros.com:3030/save-maltrans-data',
+                        'http://localhost:3030/save-maltrans-data',
                         {
                             method: 'POST',
                             headers: {
