@@ -2,6 +2,7 @@ import {useState, useRef, useEffect} from 'react';
 import styles from '../styles/Maltrans.module.scss'
 import ConfirmModal from './confirmModal';
 import SendingLoader from './sendingLoader';
+import ContainerInfo from './containerInfo';
 
 export default function MaltransData({data,tokenKey,logout,username,updatedData,histData}){
 
@@ -23,6 +24,13 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
     const [history, setHistory] = useState(histData)
     const [loading, setLoading] = useState(false)
     const [isSending, setIsSending] = useState(false)
+    const [containerNO, setContainerNO] = useState(data.U_ContainerNo[0])
+
+    const containerRef = useRef()
+
+    const getContainerNo = () => {
+        return containerRef.current.value
+    }
 
     useEffect(() => {
         if(!loading){
@@ -618,9 +626,12 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <select name='U_ContainerNo'  className={styles.opt} readOnly>
-                            {containeNo(data.U_ContainerNo)}
-                        </select>
+                        <div className={styles.containerNoDiv}>
+                            <ContainerInfo containerNo={containerNO} tokenKey={token} username={user} bl={data.BL} logout={logout} getContainerNo={getContainerNo}/>
+                            <select ref={containerRef} name='U_ContainerNo'  className={styles.opt2} value={containerNO} onChange={e => {setContainerNO(e.target.value)}}>
+                                {containeNo(data.U_ContainerNo)}
+                            </select>
+                        </div>
                         <label className={styles.label} htmlFor='U_ContainerNo'>
                             أرقام الحاويات
                         </label>
