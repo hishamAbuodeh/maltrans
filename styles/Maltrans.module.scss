@@ -63,7 +63,7 @@
 }
 
 .btuContainer{
-    width: 96%;
+    width: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -115,6 +115,24 @@
     font-weight: bold;
 }
 
+.fieldset2{
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.textArea{
+    text-align: right;
+    height: 127px;
+    width: 300px;
+    font-size: 15px;
+    border: solid 1px;
+    font-weight: bold;
+    padding: 10px;
+}
+
 .input[type="file"]{
     font-weight: bold;
     width: 190px;
@@ -136,6 +154,7 @@
  .inputContainer{
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 9px;
  }
 
  .userActions {
