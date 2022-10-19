@@ -625,7 +625,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     <fieldset className={styles.fieldset}>
                         <input className={styles.textInput} name='U_ShippingMethod' readOnly value={data.U_ShippingMethod}/>
                         <label className={styles.label}  htmlFor='U_ShippingMethod'>
-                            طريقة التخليص
+                            طريقة الشحن
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
