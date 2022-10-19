@@ -74,6 +74,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     <td key={index.toString() + "-" + '12'} className={styles.td}>{item.clearanceBill != "no file"? item.clearanceBill.split("pdf\\")[1] : "no file"}</td>
                     <td key={index.toString() + "-" + '13'} className={styles.td}>{item.samplingModel != "no file"? item.samplingModel.split("pdf\\")[1] : "no file"}</td>
                     <td key={index.toString() + "-" + '14'} className={styles.td}>{item.dataResults != "no file"? item.dataResults.split("pdf\\")[1] : "no file"}</td>
+                    <td key={index.toString() + "-" + '18'} className={styles.td}>{item.Notes}</td>
                     <td key={index.toString() + "-" + '15'} className={styles.td}>{item.Sysdate.split("T")[0]}</td>
                     <td key={index.toString() + "-" + '16'} className={styles.td}>{item.UserName}</td>
                 </tr>
@@ -100,6 +101,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
         const [isSelectedTwo, setIsSelectedTwo] = useState(false);
         const [isSelectedThree, setIsSelectedThree] = useState(false);
         const [isSelectedFour, setIsSelectedFour] = useState(false);
+        const [notes, setNotes] = useState(updatedData.notes);
 
         const ref1 = useRef()
         const ref2 = useRef()
@@ -241,6 +243,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 formData.append('requiredAction', requiredAction);
                 formData.append('UserName', user);
                 formData.append('docDone', docDone);
+                formData.append('notes', notes);
                 const dataToBase64 = await convertFiles(formData)
                 console.log(dataToBase64)
                 try{
@@ -298,74 +301,86 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
     
         return(
             <div>
-                <div className={styles.fileUpload}>
-                    <div className={styles.inputContainer}>
-                        {isSelectedOne?
-                            <div className={styles.userActions}>
-                                <button onClick={() => removeFile(1)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
-                                </button>
-                            </div>
-                        :
-                            <></>
-                        }
-                        <fieldset className={styles.fieldset}>
-                                <input className={styles.input} type="file" ref={ref1}  name="file1" accept=".pdf" onChange={e => changeHandler(e,1)} />
-                                <label className={styles.fileLabel}  htmlFor='file1'>
-                                    البيان الجمركي
+                <div style={{display:"flex",flexWrap:"wrap",justifyContent:"flex-end",alignItems:"flex-start"}}>
+                    <div className={styles.fileUpload} >
+                        <fieldset className={styles.fieldset2}>
+                                <label className={styles.label2} htmlFor='notes' style={{marginBottom:"10px"}}>
+                                    ملاحظات
                                 </label>
+                                <textarea className={styles.textArea} value={notes} name='notes' onChange={e => {setNotes(e.target.value)}}/>
                         </fieldset>
                     </div>
-                    <div className={styles.inputContainer}>
-                        {isSelectedTwo?
-                            <div className={styles.userActions}>
-                                <button onClick={() => removeFile(2)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
-                                </button>
+                    <div style={{marginLeft:"15px"}}>
+                        <div className={styles.fileUpload}>
+                            <div className={styles.inputContainer}>
+                                {isSelectedOne?
+                                    <div className={styles.userActions}>
+                                        <button onClick={() => removeFile(1)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                                        </button>
+                                    </div>
+                                :
+                                    <></>
+                                }
+                                <fieldset className={styles.fieldset}>
+                                        <input className={styles.input} type="file" ref={ref1}  name="file1" accept=".pdf" onChange={e => changeHandler(e,1)} />
+                                        <label className={styles.fileLabel}  htmlFor='file1'>
+                                            البيان الجمركي
+                                        </label>
+                                </fieldset>
                             </div>
-                        :
-                            <></>
-                        }
-                        <fieldset className={styles.fieldset}>
-                                <input className={styles.input} type="file" ref={ref2} name="file2" accept=".pdf" onChange={e => changeHandler(e,2)} />
-                                <label className={styles.fileLabel}  htmlFor='file2'>
-                                    فواتير التخليص
-                                </label>
-                        </fieldset>  
-                    </div>
-                    <div className={styles.inputContainer}>
-                        {isSelectedThree?
-                            <div className={styles.userActions}>
-                                <button onClick={() => removeFile(3)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
-                                </button>
+                            <div className={styles.inputContainer}>
+                                {isSelectedTwo?
+                                    <div className={styles.userActions}>
+                                        <button onClick={() => removeFile(2)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                                        </button>
+                                    </div>
+                                :
+                                    <></>
+                                }
+                                <fieldset className={styles.fieldset}>
+                                        <input className={styles.input} type="file" ref={ref2} name="file2" accept=".pdf" onChange={e => changeHandler(e,2)} />
+                                        <label className={styles.fileLabel}  htmlFor='file2'>
+                                            فواتير التخليص
+                                        </label>
+                                </fieldset>  
                             </div>
-                        :
-                            <></>
-                        }
-                        <fieldset className={styles.fieldset}>
-                                <input className={styles.input} type="file" ref={ref3} name="file3" accept=".pdf" onChange={e => changeHandler(e,3)} />
-                                <label className={styles.fileLabel}  htmlFor='file3'>
-                                    نموذج سحب العينات
-                                </label>
-                        </fieldset>  
-                    </div>
-                    <div className={styles.inputContainer}>
-                        {isSelectedFour?
-                            <div className={styles.userActions}>
-                                <button onClick={() => removeFile(4)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
-                                </button>
+                            <div className={styles.inputContainer}>
+                                {isSelectedThree?
+                                    <div className={styles.userActions}>
+                                        <button onClick={() => removeFile(3)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                                        </button>
+                                    </div>
+                                :
+                                    <></>
+                                }
+                                <fieldset className={styles.fieldset}>
+                                        <input className={styles.input} type="file" ref={ref3} name="file3" accept=".pdf" onChange={e => changeHandler(e,3)} />
+                                        <label className={styles.fileLabel}  htmlFor='file3'>
+                                            نموذج سحب العينات
+                                        </label>
+                                </fieldset>  
                             </div>
-                        :
-                            <></>
-                        }
-                        <fieldset className={styles.fieldset}>
-                                <input className={styles.input} type="file" ref={ref4} name="file4" accept=".pdf" onChange={e => changeHandler(e,4)} />
-                                <label className={styles.fileLabel}  htmlFor='file4'>
-                                    نتائج البيانات والانجازات
-                                </label>
-                        </fieldset>  
+                            <div className={styles.inputContainer}>
+                                {isSelectedFour?
+                                    <div className={styles.userActions}>
+                                        <button onClick={() => removeFile(4)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512"><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                                        </button>
+                                    </div>
+                                :
+                                    <></>
+                                }
+                                <fieldset className={styles.fieldset}>
+                                        <input className={styles.input} type="file" ref={ref4} name="file4" accept=".pdf" onChange={e => changeHandler(e,4)} />
+                                        <label className={styles.fileLabel}  htmlFor='file4'>
+                                            نتائج البيانات والانجازات
+                                        </label>
+                                </fieldset>  
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className={styles.btuContainer}>
@@ -701,6 +716,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                             <th key={12} className={styles.th}>اسم ملف فواتير التخليص</th>
                                             <th key={13} className={styles.th}>اسم ملف نموذج سحب العينات</th>
                                             <th key={14} className={styles.th}>اسم ملف نتائج البيانات والانجازات</th>
+                                            <th key={18} className={styles.th}>ملاحظات</th>
                                             <th key={15} className={styles.th}>تاريخ ادخال البيانات</th>
                                             <th key={16} className={styles.th}>المستخدم</th>
                                         </tr>

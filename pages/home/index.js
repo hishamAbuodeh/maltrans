@@ -63,10 +63,11 @@ export default function Home(props){
             healthPath:"Red",
             customPath:"Red",
             agriPath:"Red",
-            customeInsurance:"",
+            customeInsurance:"0",
             clearanceFinish:"",
             requiredAction:"تسليم المستندات",
-            DocDone:"غير منجز"
+            DocDone:"غير منجز",
+            Notes:""
         })
         const [histData, setHistData] = useState([])
         const [msg,setMsg] = useState("")
@@ -83,10 +84,11 @@ export default function Home(props){
                 healthPath:"Red",
                 customPath:"Red",
                 agriPath:"Red",
-                customeInsurance:"",
+                customeInsurance:"0",
                 clearanceFinish:"",
                 requiredAction:"تسليم المستندات",
-                DocDone:"غير منجز"
+                DocDone:"غير منجز",
+                Notes:""
             })
             setHistData([])
         }
