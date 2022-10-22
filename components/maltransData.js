@@ -623,6 +623,12 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
+                        <input className={styles.textInput} name="U_PO_Description" readOnly value={data.U_PO_Description}/>
+                        <label className={styles.label} htmlFor='U_PO_Description'>
+                            وصف المادة
+                        </label>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
                         <input className={styles.textInput} name='U_ShippingMethod' readOnly value={data.U_ShippingMethod}/>
                         <label className={styles.label}  htmlFor='U_ShippingMethod'>
                             طريقة الشحن
