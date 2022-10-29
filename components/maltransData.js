@@ -12,6 +12,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
     const [healthPath, setHealthPath] = useState(updatedData.healthPath);
     const [customPath, setCustomPath] = useState(updatedData.customPath);
     const [agriPath, setAgriPath] = useState(updatedData.agriPath);
+    const [customTerms, setCustomTerms] = useState(updatedData.customTerms);
     const [customeInsurance, setCustomeInsurance] = useState(updatedData.customeInsurance);
     const [clearanceFinish, setClearanceFinish] = useState(updatedData.clearanceFinish);
     const [requiredAction, setRequiredAction] = useState(updatedData.requiredAction);
@@ -62,6 +63,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     <td key={index.toString() + "-" + '5'} className={styles.td}>{item.healthPath}</td>
                     <td key={index.toString() + "-" + '6'} className={styles.td}>{item.customPath}</td>
                     <td key={index.toString() + "-" + '7'} className={styles.td}>{item.agriPath}</td>
+                    <td key={index.toString() + "-" + '19'} className={styles.td}>{item.customTerms}</td>
                     <td key={index.toString() + "-" + '8'} className={styles.td}>{item.customeInsurance}</td>
                     <td key={index.toString() + "-" + '10'} className={styles.td}>{item.requiredAction}</td>
                     <td key={index.toString() + "-" + '17'} className={styles.td}>{item.DocDone}</td>
@@ -241,6 +243,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 formData.append('customeInsurance', customeInsurance);
                 formData.append('clearanceFinish', clearanceFinish);
                 formData.append('requiredAction', requiredAction);
+                formData.append('customTerms', customTerms);
                 formData.append('UserName', user);
                 formData.append('docDone', docDone);
                 formData.append('notes', notes);
@@ -424,6 +427,52 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     <div className={styles.info}>
                         <form onSubmit={(e) => e.preventDefault()}>
                             <div className={styles.forms}>
+                                <fieldset className={styles.fieldset}>
+                                    <select value={requiredAction} name="requiredAction" className={styles.opt} onChange={e => setRequiredAction(e.target.value)}>
+                                        <option value="استلام المستندات">
+                                            استلام المستندات
+                                        </option>
+                                        <option value="استلام إذن التسليم">
+                                            استلام إذن التسليم
+                                        </option>
+                                        <option value="تفعيل إذن التسليم">
+                                            تفعيل إذن التسليم
+                                        </option>
+                                        <option value="تنظيم البيان">
+                                            تنظيم البيان
+                                        </option>
+                                        <option value="تخمين البيان">
+                                            تخمين البيان
+                                        </option>
+                                        <option value="دفع البيان">
+                                            دفع البيان
+                                        </option>
+                                        <option value="تحميل من الميناء">
+                                            تحميل من الميناء
+                                        </option>
+                                        <option value="معاينة مع عينة">
+                                            معاينة مع عينة
+                                        </option>
+                                        <option value="معاينة بدون عينة">
+                                            معاينة بدون عينة
+                                        </option>
+                                        <option value="تصريح خروج">
+                                            تصريح خروج
+                                        </option>
+                                        <option value="وصلت">
+                                            وصلت
+                                        </option>
+                                        <option value="نتائج">
+                                            نتائج
+                                        </option>
+                                        <option value="إنجاز">
+                                            إنجاز
+                                        </option>
+                                    </select>
+                                    <label className={styles.label2} htmlFor='requiredAction'>
+                                        الإجراء المطلوب
+                                    </label>
+                                </fieldset>
                                 {updatedData.clearanceNo == ""?
                                     <fieldset className={styles.fieldset}>
                                         <select value={customCenter} name="customCenter" className={styles.opt} onChange={e => setCustomCenter(e.target.value)}>
@@ -531,55 +580,25 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                     </label>
                                 </fieldset>
                                 <fieldset className={styles.fieldset}>
-                                    <input className={styles.textInput} value={customeInsurance} name='customeInsurance' onChange={e => setCustomeInsurance(e.target.value)} required/>
-                                    <label className={styles.label2} htmlFor='customeInsurance'>
-                                        التأمينات الجمركية
+                                <select value={customTerms} name="customTerms" className={styles.opt} onChange={e => setCustomTerms(e.target.value)}>
+                                        <option value="215 : بدل وثائق غير مصدقة مستوفاة بالتأمين">
+                                            215 : بدل وثائق غير مصدقة مستوفاة بالتأمين
+                                        </option>
+                                        <option value="250: رسم موحد بأمانة ">
+                                            250: رسم موحد بأمانة  
+                                        </option>
+                                        <option value="251: ضريبة مبيعات عامة نسبية بأمانة ">
+                                            251: ضريبة مبيعات عامة نسبية بأمانة  
+                                        </option>
+                                    </select>
+                                    <label className={styles.label2} htmlFor='customTerms'>
+                                        بنود التأمينات الجمركية
                                     </label>
                                 </fieldset>
                                 <fieldset className={styles.fieldset}>
-                                    <select value={requiredAction} name="requiredAction" className={styles.opt} onChange={e => setRequiredAction(e.target.value)}>
-                                        <option value="تسليم المستندات">
-                                            تسليم المستندات
-                                        </option>
-                                        <option value="استلام إذن التسليم">
-                                            استلام إذن التسليم
-                                        </option>
-                                        <option value="تفعيل إذن التسليم">
-                                            تفعيل إذن التسليم
-                                        </option>
-                                        <option value="تنظيم البيان">
-                                            تنظيم البيان
-                                        </option>
-                                        <option value="تخمين البيان">
-                                            تخمين البيان
-                                        </option>
-                                        <option value="دفع البيان">
-                                            دفع البيان
-                                        </option>
-                                        <option value="تحميل من الميناء">
-                                            تحميل من الميناء
-                                        </option>
-                                        <option value="معاينة مع عينة">
-                                            معاينة مع عينة
-                                        </option>
-                                        <option value="معاينة بدون عينة">
-                                            معاينة بدون عينة
-                                        </option>
-                                        <option value="تصريح خروج">
-                                            تصريح خروج
-                                        </option>
-                                        <option value="وصلت">
-                                            وصلت
-                                        </option>
-                                        <option value="نتائج">
-                                            نتائج
-                                        </option>
-                                        <option value="إنجاز">
-                                            إنجاز
-                                        </option>
-                                    </select>
-                                    <label className={styles.label2} htmlFor='requiredAction'>
-                                        الإجراء المطلوب
+                                    <input className={styles.textInput} value={customeInsurance} name='customeInsurance' onChange={e => setCustomeInsurance(e.target.value)} required/>
+                                    <label className={styles.label2} htmlFor='customeInsurance'>
+                                        التأمينات الجمركية
                                     </label>
                                 </fieldset>
                                 <fieldset className={styles.fieldset}>
@@ -710,6 +729,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                             <th key={5} className={styles.th}>المسرب الصحي</th>
                                             <th key={6} className={styles.th}>المسرب الجمركي</th>
                                             <th key={7} className={styles.th}>المسرب الصحي</th>
+                                            <th key={19} className={styles.th}>بنود التأمينات الجمركية</th>
                                             <th key={8} className={styles.th}>التأمينات الجمركية</th>
                                             <th key={10} className={styles.th}>الإجراء المطلوب</th>
                                             <th key={17} className={styles.th}>حالة البيان</th>
