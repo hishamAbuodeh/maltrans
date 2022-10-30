@@ -32,7 +32,7 @@
 .label2{
     text-align: right;
     margin-left: 5px;
-    min-width: 130px;
+    min-width: 148px;
 }
 
 .fileLabel{
@@ -44,8 +44,9 @@
 .forms{
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: flex-start;
+    flex-direction: row-reverse;
 }
 
 .fileUpload{
