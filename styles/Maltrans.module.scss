@@ -35,6 +35,12 @@
     min-width: 148px;
 }
 
+.label3{
+    text-align: right;
+    margin-left: 5px;
+    min-width: 300px;
+}
+
 .fileLabel{
     text-align: right;
     margin-left: 5px;
@@ -49,8 +55,17 @@
     flex-direction: row-reverse;
 }
 
-.fileUpload{
+.customs{
     margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.fileUpload{
+    // margin-top: 15px;
     margin-bottom: 25px;
     display: flex;
     flex-direction: column;
