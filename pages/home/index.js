@@ -63,8 +63,9 @@ export default function Home(props){
             healthPath:"Red",
             customPath:"Red",
             agriPath:"Red",
-            customTerms:"215 : بدل وثائق غير مصدقة مستوفاة بالتأمين",
-            customeInsurance:"0",
+            Ins215:"0",
+            Ins250:"0",
+            Ins251:"0",
             clearanceFinish:"",
             requiredAction:"تسليم المستندات",
             DocDone:"غير منجز",
@@ -85,8 +86,9 @@ export default function Home(props){
                 healthPath:"Red",
                 customPath:"Red",
                 agriPath:"Red",
-                customTerms:"215 : بدل وثائق غير مصدقة مستوفاة بالتأمين",
-                customeInsurance:"0",
+                Ins215:"0",
+                Ins250:"0",
+                Ins251:"0",
                 clearanceFinish:"",
                 requiredAction:"تسليم المستندات",
                 DocDone:"غير منجز",
@@ -106,7 +108,7 @@ export default function Home(props){
                 prevBillNo = billNo
                 setInnerLoading(true)
                 axios({
-                    baseURL:'http://maltrans.abuodehbros.com:3030',
+                    baseURL:'http://localhost:3030',
                     url: '/bill-of-lading',
                     method: 'post',
                     headers: {

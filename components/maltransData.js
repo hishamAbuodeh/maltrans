@@ -12,8 +12,9 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
     const [healthPath, setHealthPath] = useState(updatedData.healthPath);
     const [customPath, setCustomPath] = useState(updatedData.customPath);
     const [agriPath, setAgriPath] = useState(updatedData.agriPath);
-    const [customTerms, setCustomTerms] = useState(updatedData.customTerms);
-    const [customeInsurance, setCustomeInsurance] = useState(updatedData.customeInsurance);
+    const [ins215, setIns215] = useState(updatedData.Ins215);
+    const [ins250, setIns250] = useState(updatedData.Ins250);
+    const [ins251, setIns251] = useState(updatedData.Ins251);
     const [clearanceFinish, setClearanceFinish] = useState(updatedData.clearanceFinish);
     const [requiredAction, setRequiredAction] = useState(updatedData.requiredAction);
     const [docDone, setDocDone] = useState(updatedData.DocDone);
@@ -63,8 +64,9 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     <td key={index.toString() + "-" + '5'} className={styles.td}>{item.healthPath}</td>
                     <td key={index.toString() + "-" + '6'} className={styles.td}>{item.customPath}</td>
                     <td key={index.toString() + "-" + '7'} className={styles.td}>{item.agriPath}</td>
-                    <td key={index.toString() + "-" + '19'} className={styles.td}>{item.customTerms}</td>
-                    <td key={index.toString() + "-" + '8'} className={styles.td}>{item.customeInsurance}</td>
+                    <td key={index.toString() + "-" + '19'} className={styles.td}>{item.Ins215}</td>
+                    <td key={index.toString() + "-" + '8'} className={styles.td}>{item.Ins250}</td>
+                    <td key={index.toString() + "-" + '20'} className={styles.td}>{item.Ins251}</td>
                     <td key={index.toString() + "-" + '10'} className={styles.td}>{item.requiredAction}</td>
                     <td key={index.toString() + "-" + '17'} className={styles.td}>{item.DocDone}</td>
                     {(history[0].requiredAction == "إنجاز") || (history[0].DocDone == "منجز")?
@@ -230,7 +232,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 setSuccess(true)
                 setIsMsg(false)
             }
-            if( customCenter &&  clearanceNo && clearanceDate && healthPath && customPath && agriPath && customeInsurance && requiredAction && ((requiredAction == "إنجاز") || (docDone == "منجز")? (clearanceFinish != "") : true)){
+            if( customCenter &&  clearanceNo && clearanceDate && healthPath && customPath && agriPath && requiredAction && ((requiredAction == "إنجاز") || (docDone == "منجز")? (clearanceFinish != "") : true)){
                 setIsSending(true)
                 const formData = new FormData();
                 formData.append('BL', data.BL);
@@ -240,10 +242,11 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 formData.append('healthPath', healthPath);
                 formData.append('customPath', customPath);
                 formData.append('agriPath', agriPath);
-                formData.append('customeInsurance', customeInsurance);
+                formData.append('ins215', ins215);
+                formData.append('ins250', ins250);
+                formData.append('ins251', ins251);
                 formData.append('clearanceFinish', clearanceFinish);
                 formData.append('requiredAction', requiredAction);
-                formData.append('customTerms', customTerms);
                 formData.append('UserName', user);
                 formData.append('docDone', docDone);
                 formData.append('notes', notes);
@@ -251,7 +254,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                 console.log(dataToBase64)
                 try{
                     fetch(
-                        'http://maltrans.abuodehbros.com:3030/save-maltrans-data',
+                        'http://localhost:3030/save-maltrans-data',
                         {
                             method: 'POST',
                             headers: {
@@ -304,15 +307,10 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
     
         return(
             <div>
-                <div style={{display:"flex",flexWrap:"wrap",justifyContent:"flex-end",alignItems:"flex-start"}}>
-                    <div className={styles.fileUpload} >
-                        <fieldset className={styles.fieldset2}>
-                                <label className={styles.label2} htmlFor='notes' style={{marginBottom:"10px"}}>
-                                    ملاحظات
-                                </label>
-                                <textarea className={styles.textArea} value={notes} name='notes' onChange={e => {setNotes(e.target.value)}}/>
-                        </fieldset>
-                    </div>
+                <h4 style={{paddingRight:'10px',textAlign:"right"}}>
+                    الملفات
+                </h4>
+                <div style={{display:"flex",flexWrap:"wrap",justifyContent:"flex-start",alignItems:"flex-start",flexDirection:"row-reverse"}}>
                     <div style={{marginLeft:"15px"}}>
                         <div className={styles.fileUpload}>
                             <div className={styles.inputContainer}>
@@ -384,6 +382,14 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                 </fieldset>  
                             </div>
                         </div>
+                    </div>
+                    <div className={styles.fileUpload} >
+                        <fieldset className={styles.fieldset2}>
+                                <label className={styles.label2} htmlFor='notes' style={{marginBottom:"10px"}}>
+                                    ملاحظات
+                                </label>
+                                <textarea className={styles.textArea} value={notes} name='notes' onChange={e => {setNotes(e.target.value)}}/>
+                        </fieldset>
                     </div>
                 </div>
                 <div className={styles.btuContainer}>
@@ -459,9 +465,9 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                         <option value="تصريح خروج">
                                             تصريح خروج
                                         </option>
-                                        <option value="وصلت">
+                                        {/* <option value="وصلت">
                                             وصلت
-                                        </option>
+                                        </option> */}
                                         <option value="نتائج">
                                             نتائج
                                         </option>
@@ -580,28 +586,6 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                     </label>
                                 </fieldset>
                                 <fieldset className={styles.fieldset}>
-                                <select value={customTerms} name="customTerms" className={styles.opt} onChange={e => setCustomTerms(e.target.value)}>
-                                        <option value="215 : بدل وثائق غير مصدقة مستوفاة بالتأمين">
-                                            215 : بدل وثائق غير مصدقة مستوفاة بالتأمين
-                                        </option>
-                                        <option value="250: رسم موحد بأمانة ">
-                                            250: رسم موحد بأمانة  
-                                        </option>
-                                        <option value="251: ضريبة مبيعات عامة نسبية بأمانة ">
-                                            251: ضريبة مبيعات عامة نسبية بأمانة  
-                                        </option>
-                                    </select>
-                                    <label className={styles.label2} htmlFor='customTerms'>
-                                        بنود التأمينات الجمركية
-                                    </label>
-                                </fieldset>
-                                <fieldset className={styles.fieldset}>
-                                    <input className={styles.textInput} value={customeInsurance} name='customeInsurance' onChange={e => setCustomeInsurance(e.target.value)} required/>
-                                    <label className={styles.label2} htmlFor='customeInsurance'>
-                                        التأمينات الجمركية
-                                    </label>
-                                </fieldset>
-                                <fieldset className={styles.fieldset}>
                                 <select value={docDone} name="docDone" className={styles.opt} onChange={e => setDocDone(e.target.value)}>
                                         <option value="غير منجز">
                                             غير منجز
@@ -624,6 +608,29 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                 :
                                     <></>
                                 }
+                            </div>
+                            <div className={styles.customs}>
+                                <h4 style={{paddingRight:'10px'}}>
+                                    بنود التأمينات الجمركية
+                                </h4>
+                                <fieldset className={styles.fieldset}>
+                                    <input className={styles.textInput} value={ins215} name='ins215' onChange={e => setIns215(e.target.value)} required/>
+                                    <label className={styles.label3} htmlFor='ins215'>
+                                        بدل وثائق غير مصدقة مستوفاة بالتأمين : 215
+                                    </label>
+                                </fieldset>
+                                <fieldset className={styles.fieldset}>
+                                    <input className={styles.textInput} value={ins250} name='ins250' onChange={e => setIns250(e.target.value)} required/>
+                                    <label className={styles.label3} htmlFor='ins250'>
+                                        250: رسم موحد بأمانة  
+                                    </label>
+                                </fieldset>
+                                <fieldset className={styles.fieldset}>
+                                    <input className={styles.textInput} value={ins251} name='ins251' onChange={e => setIns251(e.target.value)} required/>
+                                    <label className={styles.label3} htmlFor='ins251'>
+                                        251: ضريبة مبيعات عامة نسبية بأمانة 
+                                    </label>
+                                </fieldset>
                             </div>
                             <FileUpload/>
                         </form>
@@ -729,8 +736,9 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                             <th key={5} className={styles.th}>المسرب الصحي</th>
                                             <th key={6} className={styles.th}>المسرب الجمركي</th>
                                             <th key={7} className={styles.th}>المسرب الصحي</th>
-                                            <th key={19} className={styles.th}>بنود التأمينات الجمركية</th>
-                                            <th key={8} className={styles.th}>التأمينات الجمركية</th>
+                                            <th key={19} className={styles.th}>بدل وثائق غير مصدقة مستوفاة بالتأمين : 215</th>
+                                            <th key={8} className={styles.th}>250: رسم موحد بأمانة</th>
+                                            <th key={20} className={styles.th}>251: ضريبة مبيعات عامة نسبية بأمانة</th>
                                             <th key={10} className={styles.th}>الإجراء المطلوب</th>
                                             <th key={17} className={styles.th}>حالة البيان</th>
                                             {(history[0].requiredAction == "إنجاز") || (history[0].DocDone == "منجز")?

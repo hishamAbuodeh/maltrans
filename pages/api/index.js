@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default function handler(req, res) {
     let data = req.body
-    const baseURL = 'http://maltrans.abuodehbros.com:3030'
+    const baseURL = 'http://localhost:3030'
     console.log(data)
     try{
         axios({
