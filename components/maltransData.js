@@ -721,9 +721,9 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
-                        <h4 style={{textAlign:"center"}}>
+                        <h5 style={{textAlign:"center"}}>
                             Developed by Abuodeh Bros IT Department
-                        </h4>
+                        </h5>
                     </fieldset>
                 </form>     
             </div>
