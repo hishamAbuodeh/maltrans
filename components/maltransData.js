@@ -538,54 +538,6 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                     </fieldset>
                                 }
                                 <fieldset className={styles.fieldset}>
-                                    <select value={healthPath} name="healthPath" className={styles.opt} onChange={e => setHealthPath(e.target.value)}>
-                                        <option value="Red">
-                                            Red
-                                        </option>
-                                        <option value="Yellow">
-                                            Yellow 
-                                        </option>
-                                        <option value="Green">
-                                            Green 
-                                        </option>
-                                    </select>
-                                    <label className={styles.label2} htmlFor='healthPath'>
-                                        المسرب الصحي
-                                    </label>
-                                </fieldset>
-                                <fieldset className={styles.fieldset}>
-                                    <select value={customPath} name="customPath" className={styles.opt} onChange={e => setCustomPath(e.target.value)}>
-                                        <option value="Red">
-                                            Red
-                                        </option>
-                                        <option value="Yellow">
-                                            Yellow 
-                                        </option>
-                                        <option value="Green">
-                                            Green 
-                                        </option>
-                                    </select>
-                                    <label className={styles.label2} htmlFor='customPath'>
-                                        المسرب الجمركي
-                                    </label>
-                                </fieldset>
-                                <fieldset className={styles.fieldset}>
-                                <select value={agriPath} name="agriPath" className={styles.opt} onChange={e => setAgriPath(e.target.value)}>
-                                        <option value="Red">
-                                            Red
-                                        </option>
-                                        <option value="Yellow">
-                                            Yellow 
-                                        </option>
-                                        <option value="Green">
-                                            Green 
-                                        </option>
-                                    </select>
-                                    <label className={styles.label2} htmlFor='agriPath'>
-                                        المسرب الزراعي
-                                    </label>
-                                </fieldset>
-                                <fieldset className={styles.fieldset}>
                                 <select value={docDone} name="docDone" className={styles.opt} onChange={e => setDocDone(e.target.value)}>
                                         <option value="غير منجز">
                                             غير منجز
@@ -608,6 +560,61 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                                 :
                                     <></>
                                 }
+                            </div>
+                            <div className={styles.paths}>
+                                <h4 style={{paddingRight:'10px'}}>
+                                    المسارب
+                                </h4>
+                                <div className={styles.paths2}>
+                                    <fieldset className={styles.fieldset}>
+                                        <select value={healthPath} name="healthPath" className={styles.opt} onChange={e => setHealthPath(e.target.value)}>
+                                            <option value="Red">
+                                                Red
+                                            </option>
+                                            <option value="Yellow">
+                                                Yellow 
+                                            </option>
+                                            <option value="Green">
+                                                Green 
+                                            </option>
+                                        </select>
+                                        <label className={styles.label2} htmlFor='healthPath'>
+                                            المسرب الصحي
+                                        </label>
+                                    </fieldset>
+                                    <fieldset className={styles.fieldset}>
+                                        <select value={customPath} name="customPath" className={styles.opt} onChange={e => setCustomPath(e.target.value)}>
+                                            <option value="Red">
+                                                Red
+                                            </option>
+                                            <option value="Yellow">
+                                                Yellow 
+                                            </option>
+                                            <option value="Green">
+                                                Green 
+                                            </option>
+                                        </select>
+                                        <label className={styles.label2} htmlFor='customPath'>
+                                            المسرب الجمركي
+                                        </label>
+                                    </fieldset>
+                                    <fieldset className={styles.fieldset}>
+                                    <select value={agriPath} name="agriPath" className={styles.opt} onChange={e => setAgriPath(e.target.value)}>
+                                            <option value="Red">
+                                                Red
+                                            </option>
+                                            <option value="Yellow">
+                                                Yellow 
+                                            </option>
+                                            <option value="Green">
+                                                Green 
+                                            </option>
+                                        </select>
+                                        <label className={styles.label2} htmlFor='agriPath'>
+                                            المسرب الزراعي
+                                        </label>
+                                    </fieldset>
+                                </div>
                             </div>
                             <div className={styles.customs}>
                                 <h4 style={{paddingRight:'10px'}}>
@@ -698,7 +705,7 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                     <fieldset className={styles.fieldset}>
                         <input className={styles.textInput} name='U_StorageMethod' readOnly value={data.U_StorageMethod}/>
                         <label className={styles.label} htmlFor='U_StorageMethod'>
-                            طريقة التخزين
+                            نوع التخليص
                         </label>
                     </fieldset>
                     <fieldset className={styles.fieldset}>
@@ -712,6 +719,11 @@ export default function MaltransData({data,tokenKey,logout,username,updatedData,
                         <label className={styles.label} htmlFor='U_PO_Status'>
                             حالة الطلب
                         </label>
+                    </fieldset>
+                    <fieldset className={styles.fieldset}>
+                        <h4 style={{textAlign:"center"}}>
+                            Developed by Abuodeh Bros IT Department
+                        </h4>
                     </fieldset>
                 </form>     
             </div>
