@@ -56,12 +56,29 @@
 }
 
 .customs{
-    margin-top: 15px;
+    // margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
+}
+
+.paths{
+    // margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.paths2{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row-reverse;
 }
 
 .fileUpload{
