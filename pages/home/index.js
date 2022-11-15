@@ -108,7 +108,7 @@ export default function Home(props){
                 prevBillNo = billNo
                 setInnerLoading(true)
                 axios({
-                    baseURL:'https://alrayhan-rate.herokuapp.com/maltrans',
+                    baseURL:'https://194.165.152.206:3030',
                     url: '/bill-of-lading',
                     method: 'post',
                     headers: {
