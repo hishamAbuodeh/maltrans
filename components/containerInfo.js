@@ -28,7 +28,7 @@ export default function ContainerInfo({containerNo,tokenKey,username,bl,logout,g
         if(isLoading){
             try{
                 axios({
-                    baseURL:'https://194.165.152.206:3030',
+                    baseURL:'https://alrayhan-rate.herokuapp.com/maltrans',
                     url: '/get-container-info',
                     method: 'post',
                     headers: {
@@ -118,7 +118,7 @@ export default function ContainerInfo({containerNo,tokenKey,username,bl,logout,g
         console.log(containerNO)
         try{
             axios({
-                baseURL:'https://194.165.152.206:3030',
+                baseURL:'https://alrayhan-rate.herokuapp.com/maltrans',
                 url: '/save-container-info',
                 method: 'post',
                 headers: {
